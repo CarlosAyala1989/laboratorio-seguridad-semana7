@@ -10,10 +10,6 @@ El informe académico en Word se elaboró a partir de la plantilla proporcionada
 - REMnux se ejecutó sin red, con muestras y regla en solo lectura; sus hashes criptográficos coincidieron con el análisis local.
 - VirusTotal recibió cinco consultas por SHA-256, separadas al menos 26 segundos; todas devolvieron HTTP 404, sin cargas de archivos.
 
-## Estado pendiente
-
-El instalador oficial Malwarebytes y la imagen de Windows están preparados en el entorno de trabajo, pero la VM sigue sin iniciarse mientras se espera autorización expresa para aceptar las licencias de Windows y Malwarebytes, así como para conceder `/dev/kvm`, `/dev/net/tun` y `NET_ADMIN` al contenedor. El ZIP omite el instalador y las carpetas de almacenamiento temporal de la VM. FileASSASSIN no se reprodujo porque su enlace oficial histórico no está disponible.
-
 ## Archivos principales
 
 - `07_informe/informe_laboratorio_07.docx`: informe académico solicitado.
