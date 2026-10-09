@@ -1,0 +1,34 @@
+Archivo: muestra_04_paquete.zip
+Origen: Archivo benigno generado localmente para la práctica
+Ruta: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_04_paquete.zip
+Tamaño: 162 bytes
+Comando: file --brief --mime-type /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_04_paquete.zip
+Zip archive data, at least v2.0 to extract, compression method=deflate
+
+Comando: exiftool -j -G1 -s -- /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_04_paquete.zip
+[{
+  "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_04_paquete.zip",
+  "ExifTool:ExifToolVersion": 12.76,
+  "System:FileName": "muestra_04_paquete.zip",
+  "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+  "System:FileSize": "162 bytes",
+  "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+  "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+  "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+  "System:FilePermissions": "-rw-rw-r--",
+  "File:FileType": "ZIP",
+  "File:FileTypeExtension": "zip",
+  "File:MIMEType": "application/zip",
+  "ZIP:ZipRequiredVersion": 20,
+  "ZIP:ZipBitFlag": 0,
+  "ZIP:ZipCompression": "Deflated",
+  "ZIP:ZipModifyDate": "2026:10:08 00:00:00",
+  "ZIP:ZipCRC": "0x67ab30e2",
+  "ZIP:ZipCompressedSize": 46,
+  "ZIP:ZipUncompressedSize": 48,
+  "ZIP:ZipFileName": "LEEME.txt"
+}]
+
+Comando: ssdeep -b /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_04_paquete.zip
+ssdeep,1.1--blocksize:hash:hash,filename
+3:vhjXcVOIlldC9ksTOjieI3Zq3OCVcltcVOIlldX/l1CgB+l2ltln:5jMtlGkszeI3ZqnclStlZ/fCi+l21n,"muestra_04_paquete.zip"

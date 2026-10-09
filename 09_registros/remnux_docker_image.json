@@ -1,0 +1,9 @@
+{
+  "imagen": "remnux/remnux-distro:noble",
+  "digest": "remnux/remnux-distro@sha256:792b5ddc51074c87af4d19e868d29fa179dcd616f13846290dfaac3dd7db6b56",
+  "id": "sha256:792b5ddc51074c87af4d19e868d29fa179dcd616f13846290dfaac3dd7db6b56",
+  "tamano_bytes": 18796300564,
+  "arquitectura": "amd64",
+  "sistema": "linux",
+  "creado": "2026-07-01T12:06:41.068024385Z"
+}

@@ -1,0 +1,30 @@
+Archivo: muestra_01_texto.txt
+Origen: Archivo benigno generado localmente para la práctica
+Ruta: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+Tamaño: 106 bytes
+Comando: file --brief --mime-type /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+ASCII text
+
+Comando: exiftool -j -G1 -s -- /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+[{
+  "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt",
+  "ExifTool:ExifToolVersion": 12.76,
+  "System:FileName": "muestra_01_texto.txt",
+  "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+  "System:FileSize": "106 bytes",
+  "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+  "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+  "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+  "System:FilePermissions": "-rw-rw-r--",
+  "File:FileType": "TXT",
+  "File:FileTypeExtension": "txt",
+  "File:MIMEType": "text/plain",
+  "File:MIMEEncoding": "us-ascii",
+  "File:Newlines": "Unix LF",
+  "File:LineCount": 3,
+  "File:WordCount": 12
+}]
+
+Comando: ssdeep -b /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+ssdeep,1.1--blocksize:hash:hash,filename
+3:NARisMtERejUz13xz2KOeV+sLU62d3n:4bM2RejYseV+Dvn,"muestra_01_texto.txt"

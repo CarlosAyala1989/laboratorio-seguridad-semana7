@@ -1,0 +1,22 @@
+[
+  {
+    "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_03_registros.csv",
+    "ExifTool:ExifToolVersion": 12.76,
+    "System:FileName": "muestra_03_registros.csv",
+    "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+    "System:FileSize": "84 bytes",
+    "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+    "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+    "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+    "System:FilePermissions": "-rw-rw-r--",
+    "File:FileType": "CSV",
+    "File:FileTypeExtension": "csv",
+    "File:MIMEType": "text/csv",
+    "File:MIMEEncoding": "us-ascii",
+    "File:Newlines": "Unix LF",
+    "File:Delimiter": "Comma",
+    "File:Quoting": "(none)",
+    "File:ColumnCount": 3,
+    "File:RowCount": 3
+  }
+]

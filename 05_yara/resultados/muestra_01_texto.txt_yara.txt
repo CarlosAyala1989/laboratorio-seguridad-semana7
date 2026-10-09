@@ -1,0 +1,5 @@
+Comando: yara -s /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/05_yara/reglas/reglas_laboratorio.yar /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+Salida:
+Cadena_Controlada_Muestra /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt
+0x20:$marca: MARCA_PRUEBA_YARA_CONTROLADA
+

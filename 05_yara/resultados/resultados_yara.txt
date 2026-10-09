@@ -1,0 +1,31 @@
+RESULTADOS DE VALIDACIÓN YARA
+Reglas fuente: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/05_yara/reglas/reglas_laboratorio.yar
+Reglas compiladas: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/05_yara/resultados/reglas_laboratorio.yarc
+Validación de sintaxis: correcta (yarac 0)
+Alcance: cinco archivos benignos creados localmente; ninguno se ejecutó.
+Coincidencias positivas observadas: 2 de 5 muestras.
+
+Muestra: muestra_01_texto.txt
+Coincidencias: Cadena_Controlada_Muestra
+Evidencia: Cadena_Controlada_Muestra /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt | 0x20:$marca: MARCA_PRUEBA_YARA_CONTROLADA
+Interpretación: las reglas marcan cadenas de demostración; la coincidencia no clasifica la muestra como maliciosa.
+
+Muestra: muestra_02_datos.json
+Coincidencias: Marcador_JSON_Benigno
+Evidencia: Marcador_JSON_Benigno /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json | 0x1a:$campo: "indicador_json_benigno" | 0x34:$valor: registro_controlado
+Interpretación: las reglas marcan cadenas de demostración; la coincidencia no clasifica la muestra como maliciosa.
+
+Muestra: muestra_03_registros.csv
+Coincidencias: Sin coincidencias
+Evidencia: No se encontraron cadenas definidas por las reglas.
+Interpretación: las reglas marcan cadenas de demostración; la coincidencia no clasifica la muestra como maliciosa.
+
+Muestra: muestra_04_paquete.zip
+Coincidencias: Sin coincidencias
+Evidencia: No se encontraron cadenas definidas por las reglas.
+Interpretación: las reglas marcan cadenas de demostración; la coincidencia no clasifica la muestra como maliciosa.
+
+Muestra: muestra_05_script_inerte.py
+Coincidencias: Sin coincidencias
+Evidencia: No se encontraron cadenas definidas por las reglas.
+Interpretación: las reglas marcan cadenas de demostración; la coincidencia no clasifica la muestra como maliciosa.

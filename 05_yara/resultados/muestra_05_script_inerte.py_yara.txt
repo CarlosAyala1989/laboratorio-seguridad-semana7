@@ -1,0 +1,3 @@
+Comando: yara -s /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/05_yara/reglas/reglas_laboratorio.yar /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py
+Salida:
+(sin coincidencias)

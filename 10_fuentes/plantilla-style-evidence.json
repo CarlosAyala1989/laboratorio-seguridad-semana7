@@ -1,0 +1,170 @@
+{
+  "input": "/home/carlos-daniel/Descargas/STI Laboratorio Hardering - Ayala.docx",
+  "fonts_by_char_count": {
+    "Times New Roman": 101277
+  },
+  "direct_run_formatting_runs": 398,
+  "direct_paragraph_formatting_paragraphs": 858,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "UNIVERSIDAD PRIVADA DE TACNA",
+      "style": "normal"
+    },
+    {
+      "para_index": 2,
+      "text": "FACULTAD DE INGENIER\u00cdA",
+      "style": "normal"
+    },
+    {
+      "para_index": 3,
+      "text": "ESCUELA DE INGENIER\u00cdA DE SISTEMAS",
+      "style": "normal"
+    },
+    {
+      "para_index": 5,
+      "text": "Gu\u00eda Pr\u00e1ctica de Laboratorio N\u00b002",
+      "style": "normal"
+    },
+    {
+      "para_index": 7,
+      "text": "\u201cSemana 02: Herdening Sistemas Operativos\u201d",
+      "style": "normal"
+    },
+    {
+      "para_index": 11,
+      "text": "Seguridad de Tecnolog\u00edas de Informaci\u00f3n\n",
+      "style": "normal"
+    },
+    {
+      "para_index": 13,
+      "text": "Carlos Daniel Ayala Ramos\n",
+      "style": "normal"
+    },
+    {
+      "para_index": 18,
+      "text": "TACNA \u2013 PER\u00da\n",
+      "style": "normal"
+    },
+    {
+      "para_index": 33,
+      "text": "Gu\u00eda de Laboratorio 02: \u201cHerdening Sistemas Operativos\u201d",
+      "style": "normal"
+    },
+    {
+      "para_index": 69,
+      "text": "Figura 1. Identificaci\u00f3n general del sistema mediante hostnamectl",
+      "style": "normal"
+    },
+    {
+      "para_index": 73,
+      "text": "Figura 2. Verificaci\u00f3n de la versi\u00f3n de Ubuntu mediante /etc/os-release",
+      "style": "normal"
+    },
+    {
+      "para_index": 81,
+      "text": "Figura 3. Comprobaci\u00f3n de la arquitectura mediante uname -m",
+      "style": "normal"
+    },
+    {
+      "para_index": 85,
+      "text": "Figura 4. Identificaci\u00f3n de la versi\u00f3n del kernel mediante uname -r",
+      "style": "normal"
+    },
+    {
+      "para_index": 90,
+      "text": "Figura 5. Identificaci\u00f3n de las caracter\u00edsticas del procesador mediante lscpu",
+      "style": "normal"
+    },
+    {
+      "para_index": 96,
+      "text": "Figura 6. Identificaci\u00f3n del equipo, usuario e interfaces de red",
+      "style": "normal"
+    },
+    {
+      "para_index": 100,
+      "text": "Figura 7. An\u00e1lisis detallado de las interfaces mediante ip addr",
+      "style": "normal"
+    },
+    {
+      "para_index": 104,
+      "text": "Figura 8. Identificaci\u00f3n de la puerta de enlace y tabla de rutas",
+      "style": "normal"
+    },
+    {
+      "para_index": 118,
+      "text": "Figura 9. Creaci\u00f3n y acceso al directorio de trabajo para el STIG",
+      "style": "normal"
+    },
+    {
+      "para_index": 129,
+      "text": "Figura 10. Identificaci\u00f3n del STIG oficial de Canonical Ubuntu 24.04 LTS",
+      "style": "normal"
+    },
+    {
+      "para_index": 133,
+      "text": "Figura 11. Selecci\u00f3n del contenido Standalone XCCDF del STIG",
+      "style": "normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "UNIVERSIDAD PRIVADA DE TACNA",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "text": "FACULTAD DE INGENIER\u00cdA",
+        "style": "normal"
+      },
+      {
+        "para_index": 3,
+        "text": "ESCUELA DE INGENIER\u00cdA DE SISTEMAS",
+        "style": "normal"
+      },
+      {
+        "para_index": 4,
+        "text": "",
+        "style": "normal"
+      },
+      {
+        "para_index": 5,
+        "text": "Gu\u00eda Pr\u00e1ctica de Laboratorio N\u00b002",
+        "style": "normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "UNIVERSIDAD PRIVADA DE TACNA",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "FACULTAD DE INGENIER\u00cdA",
+        "style": "normal"
+      },
+      {
+        "para_index": 3,
+        "run_text": "ESCUELA DE INGENIER\u00cdA DE SISTEMAS",
+        "style": "normal"
+      },
+      {
+        "para_index": 5,
+        "run_text": "Gu\u00eda Pr\u00e1ctica de Laboratorio N\u00b002",
+        "style": "normal"
+      },
+      {
+        "para_index": 7,
+        "run_text": "\u201cSemana 02: Herdening Sistemas Operativos\u201d",
+        "style": "normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

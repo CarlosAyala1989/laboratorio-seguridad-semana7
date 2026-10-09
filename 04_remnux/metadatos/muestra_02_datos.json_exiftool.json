@@ -1,0 +1,19 @@
+[
+  {
+    "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json",
+    "ExifTool:ExifToolVersion": 12.76,
+    "System:FileName": "muestra_02_datos.json",
+    "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+    "System:FileSize": "106 bytes",
+    "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+    "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+    "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+    "System:FilePermissions": "-rw-rw-r--",
+    "File:FileType": "JSON",
+    "File:FileTypeExtension": "json",
+    "File:MIMEType": "application/json",
+    "JSON:Analisis_estatico": true,
+    "JSON:Indicador_json_benigno": "registro_controlado",
+    "JSON:Tipo": "muestra de laboratorio"
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "fecha_hora": "2026-10-08T18:56:10-05:00",
+  "sistema": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+  "arquitectura": "x86_64",
+  "procesador": "x86_64",
+  "herramientas": {
+    "file": "/usr/bin/file",
+    "exiftool": null,
+    "ssdeep": null,
+    "yara": null,
+    "yarac": null,
+    "md5sum": "/usr/bin/md5sum",
+    "sha256sum": "/usr/bin/sha256sum",
+    "python3": "/home/carlos-daniel/.local/bin/python3",
+    "docker": "/usr/bin/docker",
+    "VBoxManage": "/usr/bin/VBoxManage",
+    "remnux": null,
+    "malwarebytes": null,
+    "mbam": null
+  },
+  "herramientas_locales": {
+    "exiftool": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/exiftool",
+    "ssdeep": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/ssdeep",
+    "yara": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/yara",
+    "yarac": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/yarac"
+  },
+  "comandos": {
+    "distribucion": {
+      "codigo": 0,
+      "salida": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo",
+      "error": ""
+    },
+    "kernel": {
+      "codigo": 0,
+      "salida": "Linux carlosdaniel 7.0.0-34-generic #34~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 15:38:29 UTC 2 x86_64 x86_64 x86_64 GNU/Linux",
+      "error": ""
+    },
+    "procesador": {
+      "codigo": 0,
+      "salida": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  8\nOn-line CPU(s) list:                     0-7\nVendor ID:                               GenuineIntel\nModel name:                              11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz\nCPU family:                              6\nModel:                                   140\nThread(s) per core:                      2\nCore(s) per socket:                      4\nSocket(s):                               1\nStepping:                                2\nCPU(s) scaling MHz:                      96%\nCPU max MHz:                             4500.0000\nCPU min MHz:                             400.0000\nBogoMIPS:                                4992.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nVirtualization:                          VT-x\nL1d cache:                               192 KiB (4 instances)\nL1i cache:                               128 KiB (4 instances)\nL2 cache:                                5 MiB (4 instances)\nL3 cache:                                8 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-7\nVulnerability Gather data sampling:      Vulnerable\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Mitigation; Aligned branch/return thunks\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected",
+      "error": ""
+    },
+    "interfaces_red": {
+      "codigo": 0,
+      "salida": "lo               UNKNOWN        127.0.0.1/8 ::1/128 \nenp1s0           DOWN           \nwlp0s20f3        UP             192.168.1.27/24 2800:200:fe50:499:d7f2:f20a:e3f3:f653/64 2800:200:fe50:499:2703:9e75:aac8:3be8/64 2800:200:fe50:499:3fcf:3bd2:386a:c231/64 fe80::d4fd:e281:2e61:e71/64 \nbr-8995bb8e727d  UP             172.21.0.1/16 fe80::14ab:cdff:fea7:d372/64 \nbr-8a92330e87c0  DOWN           172.24.0.1/16 \nbr-9d79804e31a6  DOWN           172.20.0.1/16 \nbr-9fe66899d842  DOWN           172.19.0.1/16 fe80::98f3:5eff:feda:425e/64 \nbr-e4f138dc856b  UP             172.22.0.1/16 fe80::5ca3:c2ff:fefe:4ce1/64 \ndocker0          DOWN           172.17.0.1/16 fe80::cce3:7dff:fecc:f328/64 \nbr-4e54cb8fe980  DOWN           172.18.0.1/16 \nbr-e5d790214aed  DOWN           172.23.0.1/16 \nbr-f439bbeba742  UP             172.25.0.1/16 fe80::4473:85ff:febf:7049/64 \nvethec004d8@if2  UP             fe80::b819:22ff:fec0:db3f/64 \nvetha7f1b6f@if2  UP             fe80::98d9:29ff:fe12:7db0/64 \nvethd4682fe@if2  UP             fe80::3014:b4ff:fe64:e025/64 \nveth6f4bb49@if2  UP             fe80::dc9d:5aff:fe71:f787/64 \nveth71312c5@if2  UP             fe80::b81e:c5ff:fe73:85bf/64 \nvethdaa6e54@if2  UP             fe80::a8bc:98ff:fe63:6b0d/64 \nvethcc8048d@if2  UP             fe80::9c08:69ff:fe16:bf11/64 \nveth9f8ce5b@if2  UP             fe80::78d9:eff:fe67:5d23/64",
+      "error": ""
+    },
+    "virtualizacion": {
+      "codigo": 1,
+      "salida": "none",
+      "error": ""
+    },
+    "memoria": {
+      "codigo": 0,
+      "salida": "total        used        free      shared  buff/cache   available\nMem:            11Gi       7.3Gi       721Mi       846Mi       4.7Gi       4.2Gi\nSwap:          3.8Gi       2.8Gi       1.0Gi",
+      "error": ""
+    },
+    "espacio": {
+      "codigo": 0,
+      "salida": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p6  191G  140G   42G  77% /",
+      "error": ""
+    },
+    "virtualbox_version": {
+      "codigo": 0,
+      "salida": "WARNING: The vboxdrv kernel module is not loaded. Either there is no module\n         available for the current kernel (7.0.0-34-generic) or it failed to\n         load. Please recompile the kernel module and install it by\n\n           sudo /sbin/vboxconfig\n\n         You will not be able to start VMs until this problem is fixed.\n7.0.20r163906",
+      "error": ""
+    },
+    "virtualbox_maquinas": {
+      "codigo": 0,
+      "salida": "WARNING: The vboxdrv kernel module is not loaded. Either there is no module\n         available for the current kernel (7.0.0-34-generic) or it failed to\n         load. Please recompile the kernel module and install it by\n\n           sudo /sbin/vboxconfig\n\n         You will not be able to start VMs until this problem is fixed.",
+      "error": ""
+    },
+    "virtualbox_en_ejecucion": {
+      "codigo": 0,
+      "salida": "WARNING: The vboxdrv kernel module is not loaded. Either there is no module\n         available for the current kernel (7.0.0-34-generic) or it failed to\n         load. Please recompile the kernel module and install it by\n\n           sudo /sbin/vboxconfig\n\n         You will not be able to start VMs until this problem is fixed.",
+      "error": ""
+    },
+    "docker_version": {
+      "codigo": 0,
+      "salida": "Servidor 29.8.1; raíz /var/lib/docker",
+      "error": ""
+    },
+    "imagenes_remnux": {
+      "codigo": 0,
+      "salida": "No se encontró una imagen REMnux local.",
+      "error": ""
+    }
+  }
+}

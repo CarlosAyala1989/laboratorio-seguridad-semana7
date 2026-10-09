@@ -1,0 +1,1 @@
+Las consultas de VirusTotal se realizaron mediante GET al endpoint de reportes API v3 usando SHA-256. No se cargó el contenido de ninguna muestra. El presupuesto se limitó a cinco hashes únicos, con 26 segundos entre solicitudes, caché de respuestas y detención ante HTTP 401, 403 o 429. La clave se recibió por variable de entorno temporal y no se guardó.

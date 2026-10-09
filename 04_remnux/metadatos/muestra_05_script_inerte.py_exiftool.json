@@ -1,0 +1,21 @@
+[
+  {
+    "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py",
+    "ExifTool:ExifToolVersion": 12.76,
+    "System:FileName": "muestra_05_script_inerte.py",
+    "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+    "System:FileSize": "107 bytes",
+    "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+    "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+    "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+    "System:FilePermissions": "-rw-rw-r--",
+    "File:FileType": "TXT",
+    "File:FileTypeExtension": "txt",
+    "File:MIMEType": "text/plain",
+    "File:MIMEEncoding": "utf-8",
+    "File:ByteOrderMark": "No",
+    "File:Newlines": "Unix LF",
+    "File:LineCount": 2,
+    "File:WordCount": 16
+  }
+]

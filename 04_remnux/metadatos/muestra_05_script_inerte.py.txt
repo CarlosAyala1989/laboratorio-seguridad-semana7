@@ -1,0 +1,31 @@
+Archivo: muestra_05_script_inerte.py
+Origen: Archivo benigno generado localmente para la práctica
+Ruta: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py
+Tamaño: 107 bytes
+Comando: file --brief --mime-type /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py
+Unicode text, UTF-8 text
+
+Comando: exiftool -j -G1 -s -- /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py
+[{
+  "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py",
+  "ExifTool:ExifToolVersion": 12.76,
+  "System:FileName": "muestra_05_script_inerte.py",
+  "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+  "System:FileSize": "107 bytes",
+  "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+  "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+  "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+  "System:FilePermissions": "-rw-rw-r--",
+  "File:FileType": "TXT",
+  "File:FileTypeExtension": "txt",
+  "File:MIMEType": "text/plain",
+  "File:MIMEEncoding": "utf-8",
+  "File:ByteOrderMark": "No",
+  "File:Newlines": "Unix LF",
+  "File:LineCount": 2,
+  "File:WordCount": 16
+}]
+
+Comando: ssdeep -b /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_05_script_inerte.py
+ssdeep,1.1--blocksize:hash:hash,filename
+3:SeGL7AFqRemuhei9JRBLgERmPAGQRGeHJHRq:SZLEFqRemcei9J7mYrjq,"muestra_05_script_inerte.py"

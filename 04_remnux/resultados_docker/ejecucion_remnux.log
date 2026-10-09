@@ -1,0 +1,166 @@
+=== Ejecución en REMnux Docker ===
+Fecha UTC: 2026-10-09 00:45:56
+uid=1001(remnux) gid=1001(remnux) groups=1001(remnux),121(wireshark)
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+VERSION_ID="24.04"
+=== Versiones de herramientas ===
+file-5.45
+13.59
+md5sum (GNU coreutils) 9.4
+sha256sum (GNU coreutils) 9.4
+2.14.1
+4.5.0
+=== Análisis de exactamente cinco muestras benignas ===
+
+--- muestra_01_texto.txt ---
+/home/remnux/files/muestra_01_texto.txt: ASCII text
+[ExifTool]
+[ExifTool]      ExifToolVersion                 : 13.59
+[System]        FileName                        : muestra_01_texto.txt
+[System]        Directory                       : /home/remnux/files
+[System]        FileSize                        : 106 bytes
+[System]        FileModifyDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileAccessDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileInodeChangeDate             : 2026:10:08 23:54:00+00:00
+[System]        FilePermissions                 : -rw-rw-r--
+[File]          FileType                        : TXT
+[File]          FileTypeExtension               : txt
+[File]          MIMEType                        : text/plain
+[File]          MIMEEncoding                    : us-ascii
+[File]          Newlines                        : Unix LF
+[File]          LineCount                       : 3
+[File]          WordCount                       : 12
+[MD5]
+fdff4aedb9afe68911501317435c30d7  /home/remnux/files/muestra_01_texto.txt
+[SHA-256]
+e66341d8e56ecf61a815bc6947803f61bbe078a6d43267f7c5de9c72ae53f576  /home/remnux/files/muestra_01_texto.txt
+[ssdeep]
+ssdeep,1.1--blocksize:hash:hash,filename
+3:NARisMtERejUz13xz2KOeV+sLU62d3n:4bM2RejYseV+Dvn,"/home/remnux/files/muestra_01_texto.txt"
+ssdeep: Did not process files large enough to produce meaningful results
+[YARA]
+Cadena_Controlada_Muestra /home/remnux/files/muestra_01_texto.txt
+Resultado YARA: coincidencia.
+
+--- muestra_02_datos.json ---
+/home/remnux/files/muestra_02_datos.json: JSON text data
+[ExifTool]
+[ExifTool]      ExifToolVersion                 : 13.59
+[System]        FileName                        : muestra_02_datos.json
+[System]        Directory                       : /home/remnux/files
+[System]        FileSize                        : 106 bytes
+[System]        FileModifyDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileAccessDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileInodeChangeDate             : 2026:10:08 23:54:00+00:00
+[System]        FilePermissions                 : -rw-rw-r--
+[File]          FileType                        : JSON
+[File]          FileTypeExtension               : json
+[File]          MIMEType                        : application/json
+[JSON]          Analisis_estatico               : true
+[JSON]          Indicador_json_benigno          : registro_controlado
+[JSON]          Tipo                            : muestra de laboratorio
+[MD5]
+50fc40883734a75189ecf004524e157c  /home/remnux/files/muestra_02_datos.json
+[SHA-256]
+0ae51dec7c2b82a4e3fd4187693cd77cecc5137f308ce6c706b6120f68d266e9  /home/remnux/files/muestra_02_datos.json
+[ssdeep]
+ssdeep: Did not process files large enough to produce meaningful results
+ssdeep,1.1--blocksize:hash:hash,filename
+3:YE86ziSHGHkZ6gGACMWxGKcxM2IVQERT:YErmSakZ6nGKz7RT,"/home/remnux/files/muestra_02_datos.json"
+[YARA]
+Marcador_JSON_Benigno /home/remnux/files/muestra_02_datos.json
+Resultado YARA: coincidencia.
+
+--- muestra_03_registros.csv ---
+/home/remnux/files/muestra_03_registros.csv: CSV ASCII text
+[ExifTool]
+[ExifTool]      ExifToolVersion                 : 13.59
+[System]        FileName                        : muestra_03_registros.csv
+[System]        Directory                       : /home/remnux/files
+[System]        FileSize                        : 84 bytes
+[System]        FileModifyDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileAccessDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileInodeChangeDate             : 2026:10:08 23:54:00+00:00
+[System]        FilePermissions                 : -rw-rw-r--
+[File]          FileType                        : CSV
+[File]          FileTypeExtension               : csv
+[File]          MIMEType                        : text/csv
+[File]          MIMEEncoding                    : us-ascii
+[File]          Newlines                        : Unix LF
+[File]          Delimiter                       : Comma
+[File]          Quoting                         : (none)
+[File]          ColumnCount                     : 3
+[File]          RowCount                        : 3
+[MD5]
+e828b2e9f90244ce89234776ab1c8611  /home/remnux/files/muestra_03_registros.csv
+[SHA-256]
+2804be50d449b9e9e5e2c0a577701508f067ab1659313e7d4f22260922ec01e1  /home/remnux/files/muestra_03_registros.csv
+[ssdeep]
+ssdeep: Did not process files large enough to produce meaningful results
+ssdeep,1.1--blocksize:hash:hash,filename
+3:AfuiWRoDXzMo3WU/XJWne9CXkRen:AfFW8zD3R/ovkMn,"/home/remnux/files/muestra_03_registros.csv"
+[YARA]
+Resultado YARA: sin coincidencias.
+
+--- muestra_04_paquete.zip ---
+/home/remnux/files/muestra_04_paquete.zip: Zip archive data, at least v2.0 to extract, compression method=deflate
+[ExifTool]
+[ExifTool]      ExifToolVersion                 : 13.59
+[System]        FileName                        : muestra_04_paquete.zip
+[System]        Directory                       : /home/remnux/files
+[System]        FileSize                        : 162 bytes
+[System]        FileModifyDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileAccessDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileInodeChangeDate             : 2026:10:08 23:54:00+00:00
+[System]        FilePermissions                 : -rw-rw-r--
+[File]          FileType                        : ZIP
+[File]          FileTypeExtension               : zip
+[File]          MIMEType                        : application/zip
+[ZIP]           ZipRequiredVersion              : 20
+[ZIP]           ZipBitFlag                      : 0
+[ZIP]           ZipCompression                  : Deflated
+[ZIP]           ZipModifyDate                   : 2026:10:08 00:00:00
+[ZIP]           ZipCRC                          : 0x67ab30e2
+[ZIP]           ZipCompressedSize               : 46
+[ZIP]           ZipUncompressedSize             : 48
+[ZIP]           ZipFileName                     : LEEME.txt
+[MD5]
+41fc0f9dcd7d271d9eeb831eed0336f2  /home/remnux/files/muestra_04_paquete.zip
+[SHA-256]
+efd96b912e850d38111bdb34b8c939c6256ed7da6b8de332f0db494b54cc2094  /home/remnux/files/muestra_04_paquete.zip
+[ssdeep]
+ssdeep,1.1--blocksize:hash:hash,filename
+3:vhjXcVOIlldC9ksTOjieI3Zq3OCVcltcVOIlldX/l1CgB+l2ltln:5jMtlGkszeI3ZqnclStlZ/fCi+l21n,"/home/remnux/files/muestra_04_paquete.zip"
+ssdeep: Did not process files large enough to produce meaningful results
+[YARA]
+Resultado YARA: sin coincidencias.
+
+--- muestra_05_script_inerte.py ---
+/home/remnux/files/muestra_05_script_inerte.py: Unicode text, UTF-8 text
+[ExifTool]
+[ExifTool]      ExifToolVersion                 : 13.59
+[System]        FileName                        : muestra_05_script_inerte.py
+[System]        Directory                       : /home/remnux/files
+[System]        FileSize                        : 107 bytes
+[System]        FileModifyDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileAccessDate                  : 2026:10:08 23:54:00+00:00
+[System]        FileInodeChangeDate             : 2026:10:08 23:54:00+00:00
+[System]        FilePermissions                 : -rw-rw-r--
+[File]          FileType                        : TXT
+[File]          FileTypeExtension               : txt
+[File]          MIMEType                        : text/plain
+[File]          MIMEEncoding                    : utf-8
+[File]          ByteOrderMark                   : No
+[File]          Newlines                        : Unix LF
+[File]          LineCount                       : 2
+[File]          WordCount                       : 16
+[MD5]
+fd81a16541c655c8dfea288bd62b4f79  /home/remnux/files/muestra_05_script_inerte.py
+[SHA-256]
+67f292e9d0bd527b15f2afc491c701616704ab356ae1b372d26131d3e137ed54  /home/remnux/files/muestra_05_script_inerte.py
+[ssdeep]
+ssdeep,1.1--blocksize:hash:hash,filename
+3:SeGL7AFqRemuhei9JRBLgERmPAGQRGeHJHRq:SZLEFqRemcei9J7mYrjq,"/home/remnux/files/muestra_05_script_inerte.py"
+ssdeep: Did not process files large enough to produce meaningful results
+[YARA]
+Resultado YARA: sin coincidencias.

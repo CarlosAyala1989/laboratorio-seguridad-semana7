@@ -1,0 +1,2676 @@
+        UNIVERSIDAD PRIVADA DE TACNA
+           FACULTAD DE INGENIERÍA
+        ESCUELA DE INGENIERÍA DE SISTEMAS
+
+
+
+
+Guía Práctica de Laboratorio N°02
+  “Semana 02: Herdening Sistemas Operativos”
+
+                          Curso:
+          Seguridad de Tecnologías de Información​
+
+
+                       Estudiante:
+
+                Carlos Daniel Ayala Ramos​
+
+
+                         Docente:
+               Dr. Renzo Alberto Taco Coayla
+
+
+                      TACNA – PERÚ​
+
+                           2026
+  ​          ​           ​          ​          ​          ​           Escuela Profesional de Ingeniería de Sistemas
+
+
+                                                         Índice General
+
+Índice General............................................................................................................................. 2
+Introducción................................................................................................................................ 4
+1. Información sobre el evento práctico......................................................................................5
+    1.1. Título del evento práctico.............................................................................................. 5
+    1.1. Objetivos........................................................................................................................ 5
+    1.2. Tiempo de duración (horas)........................................................................................... 5
+    1.3. Resultados de Aprendizaje (RA)....................................................................................5
+    1.4. Recursos (Equipos, materiales, programas y otros)....................................................... 6
+2. Procedimiento o Metodología................................................................................................. 7
+           1. Identificación del sistema operativo y configuración de red......................................7
+           2. Descargar y revisar el STIG correspondiente a Ubuntu 24.04............................... 13
+           3. Descargar el contenido SCAP correspondiente a Ubuntu 24.04............................ 18
+           Figura 16. Creación del directorio de trabajo para el contenido SCAP.......................18
+           4. Revisión de los controles de seguridad del STIG................................................... 22
+           Figura 22. Clasificación de los controles STIG según su severidad........................... 23
+           Figura 23. Identificación de vulnerabilidades y reglas individuales del STIG............. 23
+           Figura 24. Revisión inicial de los requisitos de seguridad del STIG........................... 24
+           5. Elaboración del checklist inicial...............................................................................25
+           6. Instalación de SCAP Compliance Checker (SCC)..................................................45
+           Figura 45. Extracción e identificación de los archivos del paquete SCC.................... 48
+           7. Cargar el contenido SCAP de Ubuntu 24.04 en SCC.............................................51
+           Figura 51. Verificación del contenido Ubuntu 24.04 preinstalado............................... 53
+           8. Ejecutar el primer análisis de seguridad................................................................. 55
+           Figura 53. Actualización del contenido SCAP y selección del perfil de evaluación.... 55
+           9. Identificación de controles que requieren hardening.............................................. 62
+           10. Aplicación del hardening a un mínimo de diez controles...................................... 67
+           11. Ejecutar el segundo análisis de seguridad............................................................73
+           Figura 91. Resultado final del análisis de cumplimiento posterior al hardening......... 79
+3. Conclusiones......................................................................................................................... 81
+4. Cuestionario.......................................................................................................................... 83
+5. Referencias Bibliográficas.................................................................................................... 84
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                                                          ​       ​          -2-
+ ​            ​   ​     ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                                       Introducción
+
+
+
+La seguridad de un sistema operativo depende en gran medida de la forma en que se
+encuentran configurados sus servicios, permisos, mecanismos de autenticación y componentes
+internos. Una instalación que mantiene configuraciones innecesarias, servicios habilitados sin
+requerimiento o políticas de seguridad poco restrictivas puede incrementar su exposición
+frente a amenazas. Por esta razón, el hardening constituye una práctica fundamental dentro
+de la administración segura de sistemas, ya que busca fortalecer el entorno operativo mediante
+la aplicación de configuraciones orientadas a reducir riesgos y limitar posibles vectores de
+ataque.
+
+En el presente laboratorio se realizará un proceso de endurecimiento sobre un sistema Ubuntu
+24.04 LTS con arquitectura ARM64, utilizando como referencia las Security Technical
+Implementation Guides (STIG) y contenido basado en Security Content Automation
+Protocol (SCAP). Estas tecnologías permiten evaluar el nivel de cumplimiento de
+determinadas configuraciones de seguridad y facilitan la identificación de controles que
+requieren ser revisados o corregidos. Asimismo, mediante una herramienta de evaluación
+compatible con SCAP se realizará un análisis inicial del sistema con el propósito de obtener
+un reporte de su estado antes de aplicar las medidas de hardening.
+
+A partir de los resultados obtenidos se seleccionarán diferentes controles de seguridad que
+presenten incumplimientos, los cuales serán analizados y corregidos de acuerdo con las
+recomendaciones correspondientes para Ubuntu. Posteriormente, se efectuará una nueva
+evaluación para verificar los cambios realizados y comparar el estado del sistema antes y
+después del proceso de endurecimiento. De esta manera, el laboratorio permitirá observar de
+forma práctica cómo la aplicación de controles de seguridad puede contribuir a mejorar la
+configuración de un sistema Linux y reducir su superficie de ataque.
+
+          .
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​   ​      -3-
+ ​           ​        ​       ​      ​        ​     Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+                 Guía de Laboratorio 02: “Herdening Sistemas Operativos”
+
+
+     1.​ Información sobre el evento práctico
+
+
+
+     1.1.​       Título del evento práctico
+
+                 Guía de Laboratorio Semana 02: Herdening Sistemas Operativos
+     1.1.​       Objetivos​
+
+                 -​ Identificar los principales controles y recomendaciones de seguridad aplicables
+                    a Ubuntu 24.04 mediante las Security Technical Implementation Guides
+                    (STIG).
+
+                 -​ Utilizar contenido SCAP y una herramienta de evaluación compatible para
+                    analizar el estado de seguridad del sistema operativo.
+
+                 -​ Detectar configuraciones que no cumplen con los controles de seguridad
+                    establecidos y clasificarlas según su nivel de severidad.
+
+                 -​ Aplicar medidas de hardening sobre un conjunto de controles identificados
+                    como incumplidos, procurando que los cambios sean adecuados para el
+                    entorno evaluado.
+
+                 -​ Comparar los resultados obtenidos antes y después del proceso de
+                    endurecimiento mediante los reportes generados durante las evaluaciones.
+
+                 -​ Documentar las configuraciones modificadas y las evidencias obtenidas
+                    durante el proceso de evaluación y hardening del sistema.
+
+     1.2.​       Tiempo de duración (horas)
+
+                 2 horas.
+     1.3.​       Resultados de Aprendizaje (RA)​
+
+                 -​ RA1 - Identifica los controles de seguridad de la información.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                               ​   ​     -4-
+ ​           ​       ​        ​      ​        ​    Escuela Profesional de Ingeniería de Sistemas
+
+
+     1.4.​       Recursos (Equipos, materiales, programas y otros)
+
+
+
+
+Equipo / Recurso             Característica                              Cantidad
+
+
+Computadora                  Ubuntu 24.04 LTS ARM64 instalado                  1
+personal                     como sistema principal
+
+
+Conexión                 a   Acceso para descarga de herramientas y            1
+Internet                     documentación oficial
+
+
+Navegador web                Acceso a repositorios y documentación             1
+                             de DISA, NIST y Canonical
+
+
+Canonical Ubuntu Guía de configuración                    segura para          1
+24.04 LTS STIG   Ubuntu 24.04
+
+
+Canonical Ubuntu Contenido SCAP                    para     evaluación         1
+24.04 LTS STIG automatizada
+SCAP Benchmark
+
+
+SCAP Compliance Versión compatible con Ubuntu 24.04                            1
+Checker (SCC)   ARM64
+
+
+Terminal de Linux            Ejecución de comandos de diagnóstico,             1
+                             verificación y hardening
+
+
+Herramientas                 Gestión de servicios, permisos, paquetes          1
+administrativas de           y parámetros del sistema
+Ubuntu
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                            ​    ​     -5-
+ ​        ​       ​      ​       ​       ​    Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+2.​ Procedimiento o Metodología
+
+        Descripción: Reconocimiento del nivel de seguridad en el equipo informático.
+
+1. Identificación del sistema operativo y configuración de red
+
+Se realizará la identificación de las características principales del equipo utilizado para el
+laboratorio, verificando la versión del sistema operativo, arquitectura del procesador, nombre
+del equipo y configuración de red.
+
+Se deberá registrar como evidencia:
+
+     ●​ Sistema operativo
+     ●​ Arquitectura
+     ●​ Nombre del equipo.
+     ●​ Dirección IP asignada.
+     ●​ Información básica del kernel.
+
+Las evidencias obtenidas servirán como referencia del sistema que será sometido al proceso
+de evaluación y hardening.
+
+              Figura 1. Identificación general del sistema mediante hostnamectl
+
+
+
+
+Se realizó la identificación inicial del equipo utilizado para desarrollar el laboratorio de
+hardening. Para ello se ejecutó el comando hostnamectl, el cual permite consultar información
+general del sistema y del hardware desde la terminal de Linux. Como resultado, se identificó
+el nombre del equipo como carlos-daniel-Aspire-AV15-51 y se verificó que corresponde a una
+computadora portátil. El comando permitió comprobar que el sistema operativo instalado es
+Ubuntu 24.04.4 LTS, el cual será utilizado como entorno principal para realizar las
+evaluaciones de seguridad. Asimismo, se identificó que el equipo utiliza el kernel Linux
+7.0.0-28-generic. Un dato especialmente importante para las siguientes etapas fue la
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       -6-
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+arquitectura reportada como x86-64, debido a que esta característica determina las versiones
+compatibles de las herramientas que serán utilizadas durante el laboratorio. También se
+identificó a Acer como fabricante del equipo y Aspire AV15-51 como modelo del hardware.
+Finalmente, se observaron datos adicionales relacionados con el firmware del dispositivo.
+Esta información permite establecer las características iniciales del sistema que
+posteriormente será sometido a la evaluación mediante STIG y SCAP.
+
+
+
+         Figura 2. Verificación de la versión de Ubuntu mediante /etc/os-release
+
+
+
+
+Se realizó una segunda comprobación de la distribución y versión del sistema operativo
+instalado. Para obtener esta información se ejecutó el comando cat /etc/os-release, el cual
+muestra el contenido del archivo /etc/os-release utilizado por las distribuciones Linux para
+almacenar información de identificación del sistema. La salida confirma que el equipo ejecuta
+Ubuntu 24.04.4 LTS, correspondiente a la versión 24.04. Asimismo, se observa el nombre en
+código Noble Numbat, identificado mediante los parámetros VERSION_CODENAME=noble
+y UBUNTU_CODENAME=noble. Esta comprobación resulta importante debido a que los
+documentos STIG y los contenidos SCAP deben seleccionarse de acuerdo con la versión
+específica del sistema operativo que será evaluado. También permite evitar la utilización de
+benchmarks destinados a otras versiones de Ubuntu. La información obtenida complementa
+los resultados mostrados previamente mediante hostnamectl y confirma que el sistema
+pertenece a la familia Ubuntu/Debian. De esta manera se establece que para las siguientes
+etapas del laboratorio deberá utilizarse el contenido de seguridad correspondiente a Canonical
+Ubuntu 24.04 LTS.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       -7-
+ ​       ​       ​      ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+              Figura 3. Comprobación de la arquitectura mediante uname -m
+
+
+
+
+Se verificó específicamente la arquitectura del sistema mediante el comando uname -m. Este
+comando consulta la arquitectura de hardware reconocida por el kernel y devuelve su
+denominación correspondiente. El resultado obtenido fue x86_64, lo cual confirma que el
+sistema utiliza una arquitectura de 64 bits perteneciente a la familia x86. Esta comprobación
+es especialmente relevante para el desarrollo del laboratorio, debido a que inicialmente se
+consideró utilizar herramientas destinadas a ARM64; sin embargo, la evidencia obtenida
+demuestra que el equipo corresponde realmente a una plataforma x86-64/AMD64. Por esta
+razón, las versiones de SCAP Compliance Checker y demás herramientas que requieran
+seleccionar una arquitectura deberán descargarse en su variante para sistemas x86 de 64 bits.
+El resultado también coincide con la arquitectura x86-64 presentada anteriormente por
+hostnamectl. La utilización de uname -m proporciona así una comprobación directa e
+independiente de esta característica del sistema. Con ello se garantiza que las herramientas
+utilizadas posteriormente sean compatibles con el hardware sobre el cual se realizará el
+hardening.
+
+
+
+             Figura 4. Identificación de la versión del kernel mediante uname -r
+
+
+
+
+Se utilizó el comando uname -r para determinar la versión exacta del kernel Linux
+actualmente ejecutado por Ubuntu. El resultado obtenido fue 7.0.0-28-generic,
+correspondiente al kernel utilizado por el sistema durante la realización del laboratorio. El
+kernel constituye uno de los componentes fundamentales del sistema operativo, debido a que
+administra recursos como el procesador, memoria, dispositivos y diferentes mecanismos de
+seguridad. Registrar su versión permite establecer una línea base del entorno antes de
+comenzar con la evaluación y posterior aplicación de medidas de hardening. Esta información
+también puede ser relevante para determinados controles STIG relacionados con parámetros
+del kernel, módulos cargados o configuraciones de seguridad específicas. El resultado
+obtenido mediante uname -r coincide con la información previamente presentada por el
+comando hostnamectl, permitiendo verificar la consistencia de los datos recopilados. De esta
+forma se documenta tanto la distribución utilizada como el kernel sobre el cual se ejecutarán
+posteriormente las comprobaciones de cumplimiento de seguridad.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       -8-
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+      Figura 5. Identificación de las características del procesador mediante lscpu
+
+
+
+
+Se utilizó el comando lscpu con la finalidad de obtener información detallada acerca de la
+arquitectura y características del procesador instalado en el equipo. La salida confirma
+nuevamente que la arquitectura utilizada es x86_64 y que el procesador soporta modos de
+operación de 32 y 64 bits. Asimismo, se identificó un procesador 11th Gen Intel Core
+i5-1155G7 @ 2.50 GHz, perteneciente al fabricante GenuineIntel. El sistema dispone de 8
+CPU lógicas, numeradas desde 0 hasta 7, además de cuatro núcleos físicos y dos hilos de
+procesamiento por núcleo. El comando también presenta información relacionada con
+frecuencias, cachés, virtualización y diferentes características soportadas por el procesador.
+En particular, se observa soporte de virtualización Intel VT-x, aunque para este laboratorio
+Ubuntu será evaluado directamente como sistema operativo principal. Esta información
+permite complementar la identificación técnica del equipo y confirmar definitivamente que se
+deberá trabajar con herramientas compiladas para x86-64/AMD64. Los resultados obtenidos
+mediante lscpu son consistentes con los comandos utilizados anteriormente y permiten
+establecer las características del hardware utilizado durante la práctica.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       -9-
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+              Figura 6. Identificación del equipo, usuario e interfaces de red
+
+
+
+
+Se realizó la identificación del nombre del equipo, usuario actual y configuración resumida de
+las interfaces de red. Inicialmente se ejecutó el comando hostname, obteniendo como
+resultado carlos-daniel-Aspire-AV15-51, correspondiente al nombre asignado al sistema.
+Posteriormente se utilizó whoami, mediante el cual se identificó al usuario que ejecuta la
+sesión actual. Para consultar las interfaces de red se ejecutó ip -br addr, que proporciona una
+representación resumida del estado y las direcciones asignadas a cada interfaz. Se identificó la
+interfaz inalámbrica wlp0s20f3 en estado UP, con la dirección IPv4 privada 192.168.1.27/24,
+indicando que esta es la interfaz utilizada para la conexión a la red local. También se observan
+direcciones IPv6 asociadas a dicha interfaz. Adicionalmente aparecen interfaces
+pertenecientes a Docker, como docker0 y diferentes bridges con redes 172.17.0.0/16,
+172.18.0.0/16 y 172.19.0.0/16. Esta información permite conocer la configuración de red
+inicial del equipo antes de efectuar cualquier modificación de seguridad.
+
+
+
+              Figura 7. Análisis detallado de las interfaces mediante ip addr
+
+
+
+
+Se amplió la información de red utilizando el comando ip addr, el cual muestra
+detalladamente todas las interfaces disponibles y las direcciones asociadas a cada una. En
+primer lugar se observa la interfaz de loopback lo, utilizada para comunicaciones internas del
+propio sistema y asociada a la dirección 127.0.0.1/8. También se presenta la interfaz Ethernet
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​      - 10 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+enp1s0, que en el momento de la captura no dispone de conexión activa. La interfaz
+inalámbrica wlp0s20f3 aparece en estado UP y contiene la dirección IPv4 192.168.1.27/24,
+confirmando que corresponde a la conexión principal utilizada por el equipo. Además, la
+interfaz posee diferentes direcciones IPv6. En la misma salida pueden observarse interfaces
+virtuales correspondientes a Docker, entre ellas docker0 y diferentes interfaces bridge. Estas
+redes virtuales utilizan rangos privados de direcciones 172.x.x.x, independientes de la red
+física principal. La ejecución de ip addr proporciona así una visión completa de la
+configuración de red existente y permite diferenciar las interfaces físicas de aquellas creadas
+por servicios de virtualización de contenedores.
+
+
+
+              Figura 8. Identificación de la puerta de enlace y tabla de rutas
+
+
+
+
+Se utilizó el comando ip route para consultar la tabla de enrutamiento actualmente
+configurada en Ubuntu. La primera entrada muestra una ruta predeterminada mediante
+192.168.1.1, asociada a la interfaz inalámbrica wlp0s20f3. Esta dirección corresponde a la
+puerta de enlace utilizada por el equipo para enviar tráfico destinado a redes externas. La
+misma entrada indica que la configuración fue obtenida mediante DHCP y que la dirección de
+origen utilizada por el sistema es 192.168.1.27. También se identifica la red local
+192.168.1.0/24, accesible directamente mediante la interfaz inalámbrica. Adicionalmente
+aparecen las rutas 172.17.0.0/16, 172.18.0.0/16 y 172.19.0.0/16, correspondientes a las redes
+virtuales creadas por Docker y sus interfaces bridge. La ejecución de este comando
+complementa la información obtenida previamente mediante ip addr e ip -br addr,
+permitiendo conocer no solamente las direcciones configuradas, sino también cómo Ubuntu
+determina las rutas utilizadas para establecer las comunicaciones de red. Con esta evidencia se
+completa la identificación inicial de la configuración de red del equipo.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 11 -
+ ​       ​      ​       ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+2. Descargar y revisar el STIG correspondiente a Ubuntu 24.04
+
+Se accederá a los repositorios oficiales que contienen las Security Technical
+Implementation Guides (STIG) y se localizará la guía correspondiente a Canonical Ubuntu
+24.04 LTS.
+
+Se descargará la documentación STIG disponible para el sistema operativo, la cual permitirá
+consultar los controles de seguridad, su nivel de severidad, los procedimientos de
+comprobación y las recomendaciones para corregir configuraciones que no cumplan con los
+requisitos establecidos.
+
+             Figura 9. Creación y acceso al directorio de trabajo para el STIG
+
+
+
+
+Se muestra la preparación del directorio destinado a almacenar los archivos correspondientes
+al STIG de Ubuntu 24.04 LTS. Previamente se creó la ruta ~/Laboratorio-Hardening/02-stig,
+separando de esta manera los archivos de esta etapa del resto de evidencias generadas durante
+el laboratorio. Para comprobar que la terminal se encontraba posicionada en el directorio
+correcto se utilizó el comando pwd, abreviatura de Print Working Directory. Como resultado
+se obtuvo la ruta /home/carlos-daniel/Laboratorio-Hardening/02-stig, confirmando que las
+operaciones posteriores se realizarían dentro del directorio establecido para el STIG. Esta
+organización permite mantener de forma ordenada los documentos descargados, archivos
+XML, reportes y demás recursos que serán utilizados posteriormente. La separación de los
+archivos por etapas también facilita la conservación de evidencias del procedimiento
+realizado. A partir de este directorio se almacenará y procesará el paquete oficial
+correspondiente al Canonical Ubuntu 24.04 LTS STIG, evitando mezclarlo con los archivos
+que posteriormente serán utilizados para SCAP y SCC.
+
+
+
+
+       Figura 10. Identificación del STIG oficial de Canonical Ubuntu 24.04 LTS
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 12 -
+ ​       ​      ​       ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+Se accedió al National Checklist Program (NCP) del National Institute of Standards and
+Technology (NIST), con el objetivo de localizar la guía STIG correspondiente al sistema
+operativo identificado previamente. En la página se observa el recurso Canonical Ubuntu
+24.04 LTS STIG Ver 1, Rel 6, correspondiente a la versión de Ubuntu utilizada durante el
+laboratorio. Asimismo, el panel de información permite identificar el Checklist ID 1274, su
+estado de revisión como Final y a la Defense Information Systems Agency (DISA) como
+autoridad responsable. La página también presenta diferentes recursos asociados al checklist,
+incluyendo contenido SCAP y versiones de SCAP Compliance Checker para distintas
+arquitecturas. Entre ellas se observa específicamente SCC 5.14.1 Ubuntu 22/24 AMD64,
+compatible con la arquitectura x86_64 identificada anteriormente en el equipo. Esta consulta
+permitió seleccionar la documentación correspondiente al sistema evaluado y evitar el uso de
+guías destinadas a versiones o arquitecturas diferentes. De esta forma se estableció el STIG
+oficial que servirá como referencia para los controles de seguridad utilizados durante el
+laboratorio.
+
+
+
+             Figura 11. Selección del contenido Standalone XCCDF del STIG
+
+
+
+
+Se muestran los diferentes recursos disponibles para el checklist de Canonical Ubuntu 24.04
+LTS. Para esta etapa se seleccionó específicamente el enlace “Download Standalone
+XCCDF 1.1.4 - Canonical Ubuntu 24.04 LTS STIG - Ver 1, Rel 6”. El formato XCCDF
+(Extensible Configuration Checklist Description Format) permite representar de manera
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 13 -
+ ​       ​      ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+estructurada listas de comprobación y reglas relacionadas con configuraciones de seguridad.
+La selección de este recurso permite disponer localmente de los controles definidos por el
+STIG para posteriormente consultar sus identificadores, niveles de severidad, procedimientos
+de comprobación y acciones recomendadas. En la misma página pueden observarse recursos
+adicionales, como contenido automatizado de SCC, versiones para Chef y Ansible y
+contenido SCAP. Sin embargo, en esta etapa se utilizó únicamente el Standalone XCCDF, ya
+que el contenido SCAP destinado a la evaluación automatizada será tratado posteriormente.
+La selección realizada corresponde a Ver 1, Rel 6, manteniendo así consistencia con el
+checklist identificado previamente en el repositorio oficial.
+
+
+
+              Figura 12. Verificación del recurso XCCDF y hash publicado
+
+
+
+
+Se visualiza la página de descarga correspondiente al recurso seleccionado desde el National
+Checklist Program. En ella se presenta el enlace hacia el paquete oficial
+U_CAN_Ubuntu_24-04_LTS_V1R6_STIG.zip, alojado en la infraestructura de DISA. La
+sección Resource Information identifica como autor a la Defense Information Systems
+Agency y describe el recurso como Canonical Ubuntu 24.04 LTS STIG - Ver 1, Rel 6.
+Asimismo, se especifica que el tipo de contenido corresponde a Standalone XCCDF 1.1.4,
+confirmando que se seleccionó el documento requerido para esta etapa. Un elemento
+importante mostrado en la página es el valor SHA-256 proporcionado para el archivo
+descargable. Este hash funciona como una huella criptográfica que permite verificar
+posteriormente que el archivo obtenido localmente coincide con el publicado por la fuente
+oficial y que no sufrió modificaciones durante su descarga. Por esta razón, el valor mostrado
+fue utilizado posteriormente para realizar una comprobación de integridad desde la terminal
+de Ubuntu.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 14 -
+ ​       ​      ​       ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+                Figura 13. Descarga y almacenamiento del paquete STIG
+
+
+
+
+Se muestra el proceso de descarga del archivo U_CAN_Ubuntu_24-04_LTS_V1R6_STIG.zip
+desde el enlace oficial proporcionado por NIST/DISA. Durante la descarga se seleccionó
+directamente como ubicación el directorio Laboratorio-Hardening/02-stig, creado
+previamente para almacenar los recursos correspondientes a esta etapa. De esta forma se evitó
+la necesidad de descargar inicialmente el archivo en la carpeta predeterminada del navegador
+y moverlo posteriormente mediante comandos adicionales. El nombre del paquete permite
+identificar que corresponde a Canonical Ubuntu 24.04 LTS, versión 1, release 6 del STIG. El
+archivo se distribuye comprimido en formato ZIP y contiene tanto el documento XCCDF
+como documentación complementaria relacionada con la guía. Mantener el archivo original
+sin modificaciones resulta importante para poder realizar posteriormente la comprobación de
+integridad mediante SHA-256. Esta descarga constituye la obtención local del STIG que será
+utilizado como referencia para analizar los controles de seguridad aplicables al sistema
+Ubuntu evaluado.
+
+
+
+       Figura 14. Verificación de integridad del paquete STIG mediante SHA-256
+
+
+
+
+Se realizó la comprobación de integridad del archivo STIG descargado. Inicialmente se utilizó
+el comando sha256sum U_CAN_Ubuntu_24-04_LTS_V1R6_STIG.zip, obteniendo la huella
+SHA-256 calculada localmente para el paquete. Este valor fue comparado con el hash
+publicado previamente en la página oficial del National Checklist Program. Para automatizar
+la comprobación también se utilizó echo para proporcionar el hash esperado junto con el
+nombre del archivo, enviando posteriormente esta información mediante una tubería | hacia
+sha256sum -c -. La opción -c permite verificar el archivo utilizando una suma previamente
+conocida, mientras que el último guion indica que dicha información será recibida desde la
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 15 -
+ ​       ​         ​      ​      ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+entrada estándar. Como resultado, el sistema presentó el mensaje “La suma coincide”,
+confirmando que el hash calculado corresponde con el valor oficial. Esta comprobación
+permite establecer que el archivo descargado mantiene su integridad y que puede utilizarse
+con mayor confianza durante las siguientes etapas del laboratorio. La verificación de hashes
+constituye además una buena práctica de seguridad al obtener herramientas o contenidos
+destinados a la evaluación de sistemas.
+
+
+
+             Figura 15. Extracción y revisión de los archivos contenidos en el STIG
+
+
+
+
+Se realizó la extracción del paquete STIG previamente descargado y verificado. Primero se
+creó el directorio contenido mediante el comando mkdir -p contenido, destinado a almacenar
+los archivos descomprimidos sin modificar el paquete ZIP original. Posteriormente se ejecutó
+unzip U_CAN_Ubuntu_24-04_LTS_V1R6_STIG.zip -d contenido, indicando mediante -d el
+directorio de destino para la extracción. La salida muestra la creación de la carpeta
+correspondiente al Manual STIG y la extracción de diferentes recursos incluidos en el
+paquete. Entre ellos se identifican documentos PDF de descripción general, historial de
+revisiones y notas de lanzamiento, además de archivos auxiliares y el documento principal
+U_CAN_Ubuntu_24-04_LTS_STIG_V1R6_Manual-xccdf.xml. Finalmente se utilizó find
+contenido -maxdepth 2 -type f para enumerar los archivos extraídos y comprobar su
+disponibilidad. La presencia del archivo XCCDF confirma que se dispone localmente del
+contenido estructurado de las reglas STIG que será utilizado para la revisión de los controles
+de seguridad de Ubuntu 24.04 LTS.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 16 -
+ ​       ​      ​       ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+3. Descargar el contenido SCAP correspondiente a Ubuntu 24.04
+
+Se descargará el Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark, correspondiente al
+sistema operativo que será evaluado.
+
+Este contenido contiene las reglas de seguridad en un formato que puede ser procesado
+automáticamente por herramientas compatibles con el Security Content Automation
+Protocol (SCAP).
+
+Se almacenará el archivo descargado para posteriormente cargarlo en la herramienta de
+evaluación.
+
+
+
+      Figura 16. Creación del directorio de trabajo para el contenido SCAP
+
+
+
+
+Se muestra la preparación del directorio destinado a almacenar el contenido SCAP que será
+utilizado posteriormente para la evaluación automatizada del sistema. Para ello se ejecutó el
+comando mkdir -p ~/Laboratorio-Hardening/03-scap, mediante el cual se creó la carpeta
+correspondiente al tercer punto del laboratorio. Posteriormente se utilizó cd
+~/Laboratorio-Hardening/03-scap para cambiar el directorio actual de la terminal hacia la
+nueva        ubicación.       Como        resultado        se      obtuvo       la       ruta
+/home/carlos-daniel/Laboratorio-Hardening/03-scap, confirmando que la terminal se
+encontraba en el directorio esperado. Esta organización permite mantener separados los
+archivos SCAP de los documentos STIG obtenidos en el punto anterior y facilita la
+administración de las evidencias generadas durante el laboratorio.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 17 -
+ ​      ​       ​       ​        ​   ​     Escuela Profesional de Ingeniería de Sistemas
+
+
+            Figura 17. Identificación del contenido SCAP para Ubuntu 24.04
+
+
+
+
+Se muestra nuevamente el registro oficial del National Checklist Program (NCP) de NIST
+correspondiente a Canonical Ubuntu 24.04 LTS. La página identifica el checklist general
+como Canonical Ubuntu 24.04 LTS STIG Ver 1, Rel 6, con identificador 1274 y estado de
+revisión Final. Para esta etapa se localizó específicamente la sección SCAP 1.3 Content,
+desde la cual se encuentra disponible el benchmark automatizado para Ubuntu 24.04. El
+recurso presentado corresponde al Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark -
+Ver 1, Rel 5. Es importante diferenciar este contenido del STIG manual descargado
+anteriormente, debido a que el benchmark SCAP está estructurado para permitir la
+comprobación automatizada de controles de seguridad mediante herramientas compatibles.
+También se observan recursos de SCC para diferentes versiones y arquitecturas de Ubuntu,
+incluyendo Ubuntu 22/24 AMD64.
+
+
+
+            Figura 18. Obtención del benchmark SCAP 1.3 y su hash oficial
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                   ​    ​      - 18 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se accedió a la página de descarga del recurso SCAP seleccionado desde el repositorio NCP
+de NIST. El recurso se identifica como Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark
+- Ver 1, Rel 5, mientras que el campo Content Type especifica que corresponde a SCAP 1.3
+Content.       Desde         esta      página         se   proporciona       el      archivo
+U_CAN_Ubuntu_24-04_LTS_V1R5_STIG_SCAP_1-3_Benchmark.zip, alojado en la
+infraestructura oficial de DISA. Adicionalmente, NIST presenta la suma criptográfica
+SHA-256 correspondiente al paquete. El valor publicado comienza con D31AD819... y
+funciona como referencia para comprobar posteriormente la integridad del archivo
+descargado. Esta verificación resulta especialmente importante al trabajar con benchmarks
+destinados a evaluar configuraciones de seguridad, ya que permite confirmar que el contenido
+obtenido localmente coincide con el publicado por la fuente oficial. De esta manera se
+seleccionó el paquete SCAP apropiado para Ubuntu 24.04 y se obtuvo la información
+necesaria para validar su integridad antes de utilizarlo.
+
+
+
+              Figura 19. Descarga y almacenamiento del benchmark SCAP
+
+
+
+
+Se muestra el proceso de almacenamiento local del benchmark SCAP obtenido desde la
+fuente       oficial.     El      archivo      descargado      mantiene     el      nombre
+U_CAN_Ubuntu_24-04_LTS_V1R5_STIG_SCAP_1-3_Benchmark.zip, lo cual permite
+identificar que corresponde a Ubuntu 24.04 LTS, versión 1, release 5 y contenido SCAP 1.3.
+El paquete se encuentra distribuido en formato ZIP y contiene la información estructurada
+necesaria para realizar posteriormente una evaluación automatizada de cumplimiento. Durante
+esta etapa se seleccionó como ubicación el directorio preparado específicamente para este
+punto del laboratorio, evitando mezclar el benchmark con los archivos XCCDF manuales
+descargados anteriormente.
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 19 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 20. Verificación de integridad del benchmark SCAP mediante SHA-256
+
+
+
+
+Se realizó la verificación de integridad del benchmark SCAP descargado. Inicialmente se
+ejecutó                      el                      comando                       sha256sum
+U_CAN_Ubuntu_24-04_LTS_V1R5_STIG_SCAP_1-3_Benchmark.zip, obteniendo como
+resultado la huella criptográfica SHA-256 calculada directamente sobre el archivo local. El
+valor obtenido fue comparado con el hash publicado previamente en la página oficial de
+NIST. Posteriormente se utilizó el comando echo para proporcionar tanto la suma esperada
+como el nombre del archivo y se redirigió dicha información mediante una tubería | hacia
+sha256sum -c -.Este resultado permite verificar que el benchmark descargado mantiene su
+integridad y no presenta alteraciones detectables respecto al recurso distribuido por la fuente
+oficial.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 20 -
+ ​        ​        ​     ​       ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+4. Revisión de los controles de seguridad del STIG
+
+Se realizará una revisión inicial de los controles incluidos en el STIG de Ubuntu 24.04.
+
+Para cada control se podrá identificar información como:
+
+     ●​ Identificador del control.
+     ●​ Descripción.
+     ●​ Nivel de severidad.
+
+Los controles podrán encontrarse clasificados de acuerdo con su nivel de severidad,
+principalmente CAT I, CAT II y CAT III.
+
+
+
+              Figura 21. Localización y preparación del archivo XCCDF del STIG
+
+
+
+
+Se muestra la identificación del archivo XCCDF correspondiente al Canonical Ubuntu 24.04
+LTS STIG, previamente descargado y extraído durante las etapas anteriores del laboratorio.
+Inicialmente se ejecutó el comando pwd para comprobar que la terminal se encontraba en el
+directorio /home/carlos-daniel/Laboratorio-Hardening/02-stig. Posteriormente se utilizó find
+contenido -type f -name "*.xml" para localizar los archivos XML existentes dentro del
+contenido       extraído.     Como        resultado      se      identificó     el     archivo
+U_CAN_Ubuntu_24-04_LTS_STIG_V1R6_Manual-xccdf.xml, correspondiente a la versión
+manual del STIG. Debido a la longitud de su ruta, esta fue almacenada en la variable de
+entorno temporal STIG, facilitando la ejecución de los comandos posteriores. El comando
+echo "$STIG" permitió comprobar el contenido asignado a dicha variable. Finalmente,
+mediante test -f "$STIG" se verificó que el archivo existía realmente, obteniéndose el mensaje
+“Archivo STIG localizado correctamente”. De esta manera se confirmó que el documento
+XCCDF estaba disponible y preparado para realizar el análisis de sus controles de seguridad.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​    ​       - 21 -
+ ​       ​       ​      ​        ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+          Figura 22. Clasificación de los controles STIG según su severidad
+
+
+
+
+Se realizó una primera clasificación de los controles contenidos en el archivo XCCDF de
+acuerdo con su nivel de severidad. Para obtener esta información se utilizó el comando grep
+-o 'severity="[a-z]*"' "$STIG" | sort | uniq -c, el cual extrae los atributos severity del
+documento, los ordena y contabiliza la cantidad de apariciones de cada categoría. Como
+resultado se identificaron 16 controles con severidad high, 161 con severidad medium y 17
+con severidad low, obteniendo un total de 194 controles clasificados. Esta información
+permite observar que la mayor parte de los requisitos del STIG analizado se concentra en el
+nivel de severidad medio. Dentro de la clasificación empleada por STIG, estos niveles
+permiten establecer una prioridad para el tratamiento de los hallazgos, correspondiendo high a
+los controles de mayor criticidad, seguido de medium y posteriormente low. La identificación
+de estas categorías será importante durante las siguientes etapas, ya que permitirá priorizar las
+configuraciones de seguridad que representen un mayor riesgo para el sistema.
+
+
+
+     Figura 23. Identificación de vulnerabilidades y reglas individuales del STIG
+
+
+
+
+Se realizó la extracción de los identificadores utilizados por el STIG para distinguir
+individualmente sus controles de seguridad. En primer lugar se ejecutó grep -o 'V-[0-9]\+'
+"$STIG" | sort -u | head -15, obteniendo una muestra de identificadores de vulnerabilidad que
+comienza con V-270645, V-270646, V-270647 y continúa sucesivamente. Posteriormente se
+realizó una segunda búsqueda para localizar los identificadores internos de las reglas
+mediante el patrón SV-, obteniéndose valores como SV-270645r1068357_rule y
+SV-270646r1068358_rule. El uso de sort -u permitió eliminar resultados duplicados, mientras
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​     ​      - 22 -
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+que head -15 limitó la salida a los primeros quince elementos para facilitar su visualización.
+Estos identificadores permiten referenciar de manera inequívoca cada requisito del STIG
+durante una evaluación de seguridad. La nomenclatura V- identifica la vulnerabilidad asociada
+al requisito, mientras que los valores SV-..._rule corresponden a las reglas definidas dentro de
+la estructura XCCDF. Esta identificación será especialmente útil al documentar
+posteriormente los controles que cumplen o no cumplen con la configuración requerida.
+
+
+
+         Figura 24. Revisión inicial de los requisitos de seguridad del STIG
+
+
+
+
+Se realizó una revisión del contenido descriptivo del XCCDF mediante la extracción de sus
+elementos <title>. Para ello se utilizó el comando grep -o '<title>[^<]*</title>' "$STIG" | sed
+'s/<[^>]*>//g' | head -20, que localiza las etiquetas de título, elimina las marcas XML y
+presenta únicamente el texto correspondiente a los primeros resultados. La salida identifica
+inicialmente el documento como Canonical Ubuntu 24.04 LTS Security Technical
+Implementation Guide y posteriormente muestra diferentes clasificaciones y requisitos de
+seguridad. Entre los controles observados se establece que Ubuntu 24.04 LTS no debe tener
+instalado el paquete systemd-timesyncd, que no debe disponer del paquete ntp, que el servicio
+telnet no debe estar instalado y que tampoco debe encontrarse instalado rsh-server. Asimismo,
+se identifica un requisito que establece el uso de una herramienta de integridad de archivos
+para verificar el correcto funcionamiento de las funciones de seguridad. Esta revisión
+demuestra que el STIG contiene requisitos concretos destinados a reducir servicios
+innecesarios, eliminar protocolos inseguros y fortalecer la integridad del sistema operativo.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​      - 23 -
+ ​        ​      ​      ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+5. Elaboración del checklist inicial
+
+Se elaborará un checklist para registrar el estado de los principales controles de seguridad
+evaluados en el equipo.
+
+El estado de cada control podrá clasificarse como:
+
+     ●​ PASS: el sistema cumple con el control.
+     ●​ FAIL: el sistema no cumple con el control.
+     ●​ Not Applicable: el control no aplica al sistema evaluado.
+     ●​ Not Checked / Manual: el control requiere una verificación adicional o manual.
+
+Este checklist permitirá llevar un registro complementario de las configuraciones verificadas
+durante el laboratorio.
+
+                       Figura 25. Creación del directorio de trabajo
+
+
+
+
+Se creó un nuevo directorio denominado 05-checklist dentro de la estructura principal del
+laboratorio. Para ello se utilizó el comando mkdir -p ~/Laboratorio-Hardening/05-checklist
+desde la terminal de Ubuntu. Posteriormente se accedió al directorio mediante el comando cd
+~/Laboratorio-Hardening/05-checklist. La ubicación actual fue comprobada utilizando el
+comando pwd para evitar trabajar en una ruta incorrecta. El resultado confirmó la ruta
+/home/carlos-daniel/Laboratorio-Hardening/05-checklist. Este directorio se destinó a
+almacenar STIG Viewer y los archivos relacionados con la elaboración del checklist. De esta
+manera se mantuvo separada esta etapa de los directorios utilizados previamente para STIG y
+SCAP.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 24 -
+ ​       ​      ​        ​       ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                      Figura 26. Acceso al portal DoD Cyber Exchange
+
+
+
+
+Se accedió mediante el navegador web al portal público oficial DoD Cyber Exchange. Este
+portal proporciona información, documentación y recursos relacionados con seguridad para
+sistemas del Departamento de Defensa. En la parte superior de la interfaz se observa el menú
+principal utilizado para acceder a las diferentes categorías disponibles. Entre dichas opciones
+se encuentra la sección SRGs/STIGs, necesaria para localizar las herramientas asociadas con
+STIG. La página también muestra información relacionada con el acceso mediante
+credenciales DoD CAC para determinados contenidos. Para este laboratorio se utilizó el
+contenido público disponible sin necesidad de realizar autenticación mediante CAC. El acceso
+a este portal permitió continuar con la obtención de la herramienta oficial utilizada para
+administrar los STIG.
+
+
+
+                    Figura 27. Localización de la sección SRG/STIG Tools
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 25 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Dentro de la sección dedicada a los STIG se desplegó el menú adicional identificado mediante
+la opción More. Entre las alternativas disponibles se localizó específicamente la sección
+denominada SRG / STIG Tools. Esta sección concentra herramientas proporcionadas para
+facilitar el procesamiento y administración de contenido STIG. La selección realizada se
+encuentra señalada visualmente en la captura mediante las flechas de color rojo. Este
+procedimiento permitió evitar la utilización de herramientas procedentes de repositorios o
+fuentes no verificadas. La navegación se realizó directamente dentro de la infraestructura
+pública proporcionada por DoD Cyber Exchange. Posteriormente se ingresó a esta sección
+para localizar una versión de STIG Viewer compatible con Ubuntu Linux.
+
+
+
+                    Figura 28. Descarga de STIG Viewer para Linux
+
+
+
+
+La sección SRG and STIG Tools presentó diferentes versiones de STIG Viewer disponibles
+para su descarga. En la captura se observa la versión STIG Viewer 3.8.0, publicada también
+en variantes para diferentes plataformas. Para el entorno utilizado en el laboratorio se
+seleccionó específicamente la opción STIG Viewer 3.8.0-Linux. La elección de esta
+distribución corresponde al sistema Ubuntu utilizado para realizar las pruebas de hardening.
+La interfaz proporciona un botón Download mediante el cual se inicia la descarga del paquete
+correspondiente. También se observa una entrada separada con hashes, que puede emplearse
+para comprobar la integridad de la descarga. Con esta acción se obtuvo la aplicación necesaria
+para visualizar y posteriormente crear checklists basados en STIG.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 26 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                Figura 29. Almacenamiento del paquete de STIG Viewer
+
+
+
+
+El navegador presentó el cuadro de diálogo utilizado para seleccionar la ubicación donde
+almacenar el archivo descargado. El paquete aparece identificado mediante el nombre
+U_STIGViewer-linux-x64-3-8-0.zip. Se seleccionó como destino el directorio
+Laboratorio-Hardening/05-checklist creado previamente para esta actividad. Esta ubicación
+permite mantener conjuntamente la herramienta y los archivos generados durante la
+elaboración del checklist. El formato ZIP indica que el contenido debe ser extraído antes de
+poder ejecutar directamente STIG Viewer. La selección del directorio también evita
+almacenar el paquete únicamente dentro del directorio general de descargas. Finalmente,
+mediante la opción Guardar, se procedió a almacenar localmente el paquete de STIG Viewer
+para Linux.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 27 -
+ ​       ​      ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                     Figura 30. Extracción del paquete STIG Viewer
+
+
+
+
+Una vez descargado el paquete se regresó a la terminal ubicada dentro del directorio
+05-checklist. Se creó el subdirectorio stigviewer utilizando el comando mkdir -p stigviewer
+para almacenar la aplicación extraída. Posteriormente se utilizó unzip sobre el archivo
+U_STIGViewer-linux-x64-3-8-0.zip indicando dicho directorio como destino. La salida
+presentada en la terminal muestra la extracción de los diferentes archivos que componen la
+aplicación. Entre ellos se observan recursos, bibliotecas, archivos de idiomas y componentes
+correspondientes al entorno Chromium. También aparece el archivo ejecutable STIG Viewer
+3, que posteriormente será utilizado para iniciar la herramienta. Con este procedimiento STIG
+Viewer quedó descomprimido y preparado para realizar las configuraciones necesarias para su
+ejecución.
+
+              Figura 31. Localización y primera ejecución de STIG Viewer
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 28 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Mediante find stigviewer -type f -name "STIG Viewer 3" se identificó la ubicación exacta del
+ejecutable. El resultado indicó que se encontraba en stigviewer/stig_viewer_3-linux-x64/STIG
+Viewer 3. Posteriormente se utilizó chmod +x para garantizar que el archivo contara con
+permisos de ejecución. Al realizar la primera ejecución apareció un error relacionado
+específicamente con el componente chrome-sandbox. El mensaje indicó que este archivo
+debía pertenecer al usuario y grupo root y utilizar el modo de permisos 4755. Se aplicaron los
+cambios mediante sudo chown root:root y sudo chmod 4755 sobre el componente afectado.
+Después de esta corrección STIG Viewer logró iniciar, mostrando finalmente en la terminal el
+mensaje Application started.
+
+
+
+                Figura 32. Inicio de la interfaz gráfica de STIG Viewer 3.8
+
+
+
+
+Después de corregir los permisos requeridos se inició correctamente la interfaz gráfica de
+STIG Viewer 3.8. La pantalla inicial presenta las áreas principales correspondientes a STIG
+Viewer, Applicability Guide y Checklists. En la sección superior se observa la opción Open,
+mientras que inicialmente se indica No Recent STIGs. Esto demuestra que la aplicación
+estaba funcionando pero todavía no tenía ningún benchmark STIG cargado recientemente.
+También se observa que no existían colecciones ni checklists recientes al tratarse de una
+configuración inicial. La flecha identifica específicamente el módulo STIG Viewer, utilizado
+para incorporar y consultar los STIG disponibles. A partir de esta interfaz se procedió a
+importar el contenido oficial de Canonical Ubuntu 24.04 LTS utilizado anteriormente.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 29 -
+ ​      ​       ​       ​         ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                            Figura 33. Acceso a la biblioteca de STIG
+
+
+
+
+Dentro del módulo STIG Viewer se accedió a la pantalla denominada STIG Library. La
+interfaz informó inicialmente que la biblioteca se encontraba vacía mediante el mensaje Your
+STIG library is empty!. En la parte superior se muestran las opciones Open STIG y Add STIG
+to Library para incorporar contenido. Se seleccionó específicamente Add STIG to Library, tal
+como se encuentra señalado mediante la flecha roja. Esta alternativa permite almacenar un
+STIG dentro de la biblioteca de la aplicación para posteriores consultas. La propia
+herramienta también proporciona referencias al portal público desde el cual pueden
+descargarse los STIG individuales. El siguiente paso consistió en seleccionar el paquete
+correspondiente a Canonical Ubuntu 24.04 LTS descargado previamente.
+
+               Figura 34. STIG de Ubuntu incorporado a la biblioteca
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                          ​   ​     - 30 -
+ ​       ​      ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Después de procesar el paquete, STIG Viewer mostró una nueva entrada dentro de su sección
+principal. La entrada aparece identificada como Canonical Ubuntu 24.04 LTS y clasificada
+como parte de la STIG Library. Esto confirma que el archivo V1R6 seleccionado
+anteriormente fue reconocido correctamente por la herramienta. La presencia de esta entrada
+permite abrir el benchmark sin necesidad de volver a seleccionar manualmente el archivo ZIP.
+La captura también mantiene disponibles las secciones correspondientes a Applicability
+Guide y otros componentes de la aplicación. La flecha roja identifica la entrada recién
+incorporada, proporcionando evidencia visual de la importación satisfactoria. A continuación
+se procedió a abrir este elemento para examinar directamente las reglas incluidas en el
+benchmark STIG.
+
+
+
+                    Figura 35. Visualización de las 194 reglas STIG
+
+
+
+
+Al abrir el contenido importado se presentó el Canonical Ubuntu 24.04 LTS Security
+Technical Implementation Guide. La cabecera identifica el benchmark como Version: 1
+Release: 6 y muestra la fecha 01 Jul 2026. En el panel izquierdo se encuentran los
+documentos complementarios y las diferentes reglas de seguridad disponibles. Entre las
+primeras reglas aparecen controles relacionados con systemd-timesyncd, ntp, Telnet, RSH,
+AIDE y auditoría. La parte inferior del panel indica explícitamente que el benchmark contiene
+un total de 194 Rules. Cada elemento puede seleccionarse para consultar sus identificadores,
+descripción, procedimiento de comprobación y corrección. Esta visualización confirmó que
+STIG Viewer procesó correctamente el conjunto de controles analizado previamente desde la
+terminal.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 31 -
+ ​       ​      ​       ​        ​      ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+                     Figura 36. Acceso al módulo de STIG Checklists
+
+
+
+
+Posteriormente se seleccionó el módulo destinado específicamente a la administración de
+STIG Checklists. La pantalla inicial proporciona las opciones Load Checklist y Create
+Checklist para trabajar con evaluaciones de cumplimiento. Load Checklist permite abrir un
+checklist previamente generado, mientras que la segunda opción crea una evaluación nueva.
+Para establecer la línea base inicial del sistema se seleccionó específicamente la opción Create
+Checklist. La acción realizada se encuentra identificada en la captura mediante una flecha roja
+dirigida hacia dicho botón. Este procedimiento permite asociar las reglas del STIG importado
+con estados individuales de cumplimiento o incumplimiento. De esta manera comenzó la
+creación del checklist que documentará la condición del equipo durante el proceso de
+hardening.
+
+
+
+                            Figura 37. Creación del checklist inicial
+
+
+
+
+STIG Viewer presentó el formulario Create STIG Checklist solicitando un nombre para
+identificar la nueva evaluación. En el campo Checklist Name se introdujo inicialmente el
+texto Ubuntu 24.04 STIG - Checklist Inicial. El nombre seleccionado permite distinguir esta
+evaluación como una referencia del estado inicial del sistema Ubuntu analizado. Esta
+diferenciación será importante para compararla posteriormente con los resultados obtenidos
+después del hardening. Una vez definido el nombre, la interfaz habilita el botón Create
+Checklist para completar la operación. Las flechas rojas señalan tanto el nombre introducido
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                          ​   ​      - 32 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+como el botón utilizado para confirmar la creación del checklist. Al ejecutar esta acción,
+STIG Viewer generó una nueva evaluación basada en las reglas del benchmark previamente
+cargado.
+
+
+
+                       Figura 38. Checklist inicial con las 194 reglas
+
+
+
+
+El checklist generado muestra nuevamente el benchmark Canonical Ubuntu 24.04 LTS,
+versión 1, release 6. En el panel izquierdo aparecen las 194 reglas que deben evaluarse
+individualmente durante la revisión del sistema. La regla seleccionada en la captura
+corresponde al Group ID V-279938 y presenta una severidad CAT I. En la zona central se
+muestran apartados como Rule Title, Discussion, Check Text, Fix Text y referencias. El
+Check Text proporciona las instrucciones necesarias para determinar objetivamente si el
+equipo cumple cada requisito. A la derecha aparece el resumen de estados, mostrando
+inicialmente la mayoría de controles como Not Reviewed. Esta interfaz constituye el espacio
+principal utilizado para registrar y documentar los resultados de la evaluación STIG.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​     - 33 -
+ ​       ​       ​        ​      ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                     Figura 39. Revisión de controles de categoría CAT III
+
+
+
+
+Durante la evaluación se utilizó el filtro Cat III para visualizar únicamente las reglas
+pertenecientes a esta categoría. La captura muestra un total de 17 reglas CAT III, de las cuales
+varias fueron marcadas visualmente en color verde. El panel de resumen indica en ese
+momento 10 Not A Finding y 7 Not Reviewed, sin controles Open. La regla seleccionada
+corresponde a V-270664, relacionada con la instalación del paquete chrony en Ubuntu 24.04.
+Su sección Check Text indica el comando dpkg -l | grep chrony como procedimiento para
+comprobar el requisito. La clasificación Not A Finding debe asignarse cuando la
+comprobación indicada demuestra que el requisito se encuentra satisfecho. Esta etapa
+evidencia el comienzo de la evaluación manual y la actualización progresiva del estado de los
+controles del checklist.
+
+                              Figura 40. Guardado del checklist
+
+
+
+
+La         captura       muestra          como          ubicación        el        entorno
+Laboratorio-Hardening/05-checklist/stigviewer, utilizado durante esta etapa. En segundo
+plano permanecen visibles las 17 reglas CAT III y los estados asignados durante la revisión
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​      - 34 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+inicial. El guardado permite conservar los resultados registrados y continuar posteriormente
+con la evaluación sin perder los cambios realizados. Este archivo constituye una evidencia
+reutilizable del estado de cumplimiento documentado mediante la herramienta STIG Viewer.
+Con esta operación queda registrada la creación y almacenamiento del checklist inicial antes
+de continuar con las siguientes etapas.
+
+
+
+              DESCRIPCIÓN DE LOS ELEMENTOS SELECCIONADOS
+
+
+
+Figura 40.1. Revisión del control V-270820 sobre el uso de UTC en las marcas de tiempo
+
+
+
+
+Se visualiza en STIG Viewer 3.8 el control V-270820, clasificado con severidad CAT III,
+cuyo objetivo es garantizar que Ubuntu 24.04 LTS registre marcas de tiempo que puedan
+relacionarse con UTC o GMT. El texto de verificación establece el uso del comando
+timedatectl status | grep -i "time zone" para comprobar la zona horaria configurada. El
+resultado esperado es Time zone: UTC (UTC, +0000). Este control permite mantener una
+referencia temporal uniforme para facilitar la correlación y el análisis forense de eventos de
+seguridad.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 35 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+ Figura 40.2. Revisión del control V-270817 sobre la descarga periódica de registros de
+                                       auditoría
+
+
+
+
+La imagen muestra el control V-270817, de severidad CAT III, relacionado con la existencia
+de un procedimiento periódico para descargar o transferir registros de auditoría en sistemas
+independientes. El STIG establece que debe existir un script dentro del directorio
+/etc/cron.weekly encargado de realizar esta operación semanalmente. La verificación
+propuesta utiliza ls /etc/cron.weekly para comprobar la existencia del script correspondiente.
+El objetivo es evitar que todos los registros de auditoría permanezcan únicamente en el mismo
+sistema y puedan perderse ante una falla o alteración local.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 36 -
+ ​        ​      ​      ​        ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.3. Revisión del control V-270816 sobre capacidad de almacenamiento de
+                                          auditoría
+
+
+
+
+Se presenta el control V-270816, clasificado como CAT III, que establece que Ubuntu 24.04
+LTS debe disponer de capacidad suficiente para almacenar al menos una semana de registros
+de auditoría cuando estos no son enviados inmediatamente a un sistema centralizado. El
+procedimiento mostrado contempla revisar el parámetro log_file dentro de
+/etc/audit/auditd.conf y posteriormente verificar el espacio disponible en la partición utilizada
+mediante df -h. Este control busca garantizar que los eventos de auditoría no se pierdan
+debido a falta de espacio de almacenamiento.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​     ​      - 37 -
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.4. Revisión del control V-270752 para sincronización ante diferencias
+                                 superiores a un segundo
+
+
+
+
+Se observa el control V-270752, de severidad CAT III, encargado de verificar que el sistema
+sincronice su reloj con una fuente de tiempo autoritativa cuando exista una diferencia superior
+a un segundo. El STIG utiliza el comando grep makestep /etc/chrony/chrony.conf para
+comprobar la configuración de Chrony. El valor esperado mostrado es makestep 1 -1. Esta
+configuración permite realizar una corrección inmediata del reloj cuando la diferencia
+temporal supera el umbral definido, ayudando a mantener la precisión de las marcas de
+tiempo utilizadas en auditorías y análisis de eventos.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​       - 38 -
+ ​        ​      ​      ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.5. Revisión del control V-270751 sobre consulta periódica a una fuente de
+                                           tiempo
+
+
+
+
+La captura corresponde al control V-270751, clasificado como CAT III, cuyo propósito es
+asegurar que Ubuntu 24.04 LTS compare su reloj interno con una fuente de tiempo
+autoritativa al menos una vez cada 24 horas. El texto de comprobación utiliza grep -ir maxpoll
+/etc/chrony* y muestra como referencia una configuración del tipo server [source] iburst
+maxpoll 16. El parámetro maxpoll controla el intervalo máximo entre consultas al servidor
+NTP. Esta medida contribuye a mantener la consistencia temporal necesaria para correlacionar
+eventos registrados en diferentes sistemas.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 39 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Figura 40.6. Revisión del control V-270749 para restringir el acceso al buffer del kernel
+
+
+
+
+Se muestra el control V-270749, de severidad CAT III, que exige restringir el acceso de
+usuarios no privilegiados al buffer de mensajes del kernel. La comprobación principal se
+realiza mediante sysctl kernel.dmesg_restrict, esperando obtener el resultado
+kernel.dmesg_restrict = 1. El STIG también indica revisar los archivos de configuración sysctl
+para confirmar que no existan valores conflictivos que habiliten nuevamente el acceso. Esta
+medida reduce la posibilidad de que usuarios sin privilegios obtengan información sensible
+acerca del kernel, memoria, controladores o hardware del sistema.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 40 -
+ ​         ​      ​     ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.7. Revisión del control V-270734 sobre credenciales almacenadas en caché
+
+
+
+
+La evidencia presenta el control V-270734, clasificado como CAT III, relacionado con la
+utilización de credenciales almacenadas en caché mediante SSSD. El requisito establece que,
+cuando se utilice autenticación con tarjeta inteligente, las credenciales almacenadas no deben
+conservar su validez durante más de un día. El texto de verificación busca el parámetro
+offline_credentials_expiration dentro de /etc/sssd/sssd.conf o sus archivos complementarios,
+esperando el valor offline_credentials_expiration = 1. El propio STIG señala que este
+requisito no es aplicable si el sistema no utiliza autenticación mediante tarjeta inteligente.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 41 -
+ ​       ​      ​       ​        ​   ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.8. Revisión del control V-270706 para establecer un retardo después de
+                                  autenticaciones fallidas
+
+
+
+
+Se observa el control V-270706, de severidad CAT III, destinado a establecer un retraso
+mínimo de cuatro segundos entre solicitudes de autenticación después de un intento fallido.
+La comprobación indicada utiliza grep pam_faildelay /etc/pam.d/common-auth, esperando
+encontrar una configuración equivalente a auth required pam_faildelay.so delay=4000000. El
+valor se encuentra expresado en microsegundos, por lo que 4000000 representa cuatro
+segundos. Esta medida disminuye la velocidad con la que pueden realizarse intentos
+repetitivos de contraseña y contribuye a mitigar ataques automatizados de fuerza bruta.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 42 -
+ ​       ​      ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 40.9. Revisión del control V-270690 sobre bloqueo de cuentas tras intentos
+                                          fallidos
+
+
+
+
+La imagen corresponde al control V-270690, clasificado como CAT III, cuyo objetivo es
+bloquear automáticamente una cuenta después de tres intentos de autenticación fallidos hasta
+que sea liberada por un administrador. El STIG verifica la utilización del módulo
+pam_faillock.so dentro de /etc/pam.d/common-auth y posteriormente revisa parámetros
+específicos dentro de /etc/security/faillock.conf. Entre los valores mostrados se encuentran
+audit, silent, deny = 3 y fail_interval = 900. Esta medida proporciona protección adicional
+frente a ataques de adivinación de contraseñas y accesos repetitivos no autorizados.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 43 -
+ ​       ​       ​      ​        ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+       Figura 40.10. Revisión del control V-270664 sobre la instalación de Chrony
+
+
+
+
+Se presenta el control V-270664, de severidad CAT III, que requiere que Ubuntu 24.04 LTS
+tenga instalado el paquete Chrony para realizar la sincronización del reloj del sistema. El texto
+de comprobación utiliza dpkg -l | grep chrony y espera identificar el paquete instalado
+correctamente. En caso de ausencia, el STIG establece como medida correctiva la instalación
+mediante sudo apt install -y chrony. La utilización de Chrony permite mantener una referencia
+temporal precisa y constituye la base para otros controles relacionados con sincronización de
+tiempo y consistencia de registros de auditoría.
+
+
+
+6. Instalación de SCAP Compliance Checker (SCC)
+
+Se descargará e instalará SCAP Compliance Checker (SCC) en su versión compatible con
+Ubuntu 24.04 ARM64.
+
+SCC será utilizado como herramienta principal para procesar el contenido SCAP y realizar
+automáticamente la evaluación del nivel de cumplimiento de las configuraciones de seguridad
+del sistema operativo.
+
+Después de la instalación se verificará que la herramienta pueda ejecutarse correctamente en
+el equipo.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​     ​      - 44 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+             Figura 41. Creación y acceso al directorio de trabajo para SCC
+
+
+
+
+Muestra la preparación del directorio destinado a almacenar los archivos correspondientes a la
+instalación de SCAP Compliance Checker (SCC). En la terminal se ejecuta el comando mkdir
+-p ~/Laboratorio-Hardening/06-scc, mediante el cual se crea la carpeta específica para esta
+etapa del laboratorio. Posteriormente, se utiliza cd ~/Laboratorio-Hardening/06-scc para
+establecer dicho directorio como ubicación de trabajo actual. La ejecución del comando pwd
+permite verificar la ruta absoluta en la que se encuentra posicionada la terminal. Como
+resultado se obtiene /home/carlos-daniel/Laboratorio-Hardening/06-scc, confirmando que el
+acceso al directorio fue realizado correctamente. Esta organización permite mantener
+separados los archivos de SCC respecto de las evidencias y recursos utilizados en las etapas
+anteriores del proceso de hardening. Además, facilita la posterior localización del paquete
+descargado, su contenido extraído y los archivos requeridos durante la instalación. La flecha
+roja destaca específicamente el comando empleado para ingresar al directorio recién creado.
+No se observan mensajes de error durante la ejecución de los comandos. Por lo tanto, la
+evidencia confirma que el entorno de trabajo para el Punto 6 quedó preparado
+satisfactoriamente antes de proceder con la descarga e instalación de SCC.
+
+
+
+      Figura 42. Selección del paquete SCC compatible con Ubuntu 24.04 AMD64
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 45 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Presenta la página del National Checklist Program (NCP) correspondiente al checklist de
+seguridad de Canonical Ubuntu 24.04 LTS STIG. Dentro de la sección Supporting Resources
+se muestran diferentes versiones de SCAP Compliance Checker destinadas a distintas
+versiones y arquitecturas de Ubuntu. La flecha roja señala específicamente la opción SCC
+5.14.1 Ubuntu 22/24 AMD64, seleccionada para continuar con el procedimiento. Esta
+variante es apropiada para un sistema Ubuntu 24.04 ejecutado sobre arquitectura x86_64,
+equivalente a la denominación AMD64 utilizada en el recurso. En la misma página también se
+observan alternativas para ARM64 y versiones anteriores de Ubuntu, por lo que resulta
+importante seleccionar el paquete correspondiente a la plataforma utilizada en el laboratorio.
+Asimismo, la captura permite identificar que el recurso se encuentra publicado dentro del
+repositorio oficial NCP. En el panel derecho se visualizan datos generales del checklist,
+incluyendo su nombre, identificador, versión y autoridad responsable. La selección del
+recurso correcto evita problemas de incompatibilidad durante la instalación del software. Esta
+evidencia documenta, por tanto, el origen y la elección del paquete SCC utilizado para
+efectuar posteriormente las evaluaciones automatizadas de cumplimiento sobre Ubuntu 24.04.
+
+
+
+       Figura 43. Identificación del recurso de descarga y hash SHA-256 de SCC
+
+
+
+
+Muestra la página de descarga del recurso seleccionado desde el National Checklist Program.
+En la parte central se presenta el enlace correspondiente al archivo
+scc-5.14.1_ubuntu22_ubuntu24_amd64_bundle.zip, señalado mediante la flecha roja. El
+nombre del archivo permite comprobar que corresponde a SCC versión 5.14.1, preparado para
+Ubuntu 22/24 y arquitectura AMD64. En la sección Resource Information se identifica a la
+Defense Information Systems Agency como autora del recurso. También se muestra la
+descripción SCC 5.14.1 Ubuntu 22/24 AMD64 y su clasificación como contenido
+automatizado. Un elemento especialmente relevante es el apartado SHA HASHES, situado en
+el lado derecho de la página. Allí se proporciona el valor SHA-256 oficial asociado al archivo
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 46 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+distribuido. Este valor permite verificar posteriormente que el paquete descargado conserva su
+integridad y coincide con el publicado por la fuente. La utilización de hashes criptográficos
+constituye una medida importante para detectar modificaciones accidentales o alteraciones del
+archivo antes de proceder con su instalación. De esta manera, la evidencia documenta tanto el
+origen del paquete como la información necesaria para efectuar una comprobación de
+integridad antes de utilizarlo en el sistema.
+
+
+
+       Figura 44. Verificación de integridad del paquete SCC mediante SHA-256
+
+
+
+
+Evidencia la comprobación de integridad realizada sobre el paquete descargado de SCAP
+Compliance Checker. Para ello se utiliza el comando echo junto con el valor SHA-256
+obtenido previamente desde la página oficial y se canaliza la información hacia sha256sum -c
+-. Este procedimiento compara automáticamente el hash esperado con el hash calculado a
+partir del archivo almacenado localmente. El archivo evaluado corresponde a
+scc-5.14.1_ubuntu22_ubuntu24_amd64_bundle.zip. Como resultado, la terminal presenta el
+mensaje “La suma coincide”, señalado mediante la flecha roja. Este resultado confirma que el
+valor criptográfico calculado localmente coincide con el proporcionado para el paquete
+descargado. Por consiguiente, no se detectaron modificaciones en el archivo durante su
+transferencia o almacenamiento. Esta comprobación es especialmente relevante desde la
+perspectiva de seguridad, ya que evita continuar la instalación utilizando un paquete cuya
+integridad no pueda ser demostrada. El procedimiento también establece una cadena de
+verificación entre el recurso seleccionado previamente y el archivo utilizado en las siguientes
+etapas. La evidencia confirma así que el paquete SCC superó satisfactoriamente la validación
+SHA-256 y se encuentra listo para ser extraído.
+
+
+
+      Figura 45. Extracción e identificación de los archivos del paquete SCC
+
+
+
+
+Muestra el proceso de extracción del paquete comprimido correspondiente a SCC 5.14.1.
+Inicialmente se crea el directorio contenido mediante mkdir -p contenido, destinado a
+almacenar de forma organizada los archivos extraídos. Posteriormente se ejecuta unzip sobre
+el archivo scc-5.14.1_ubuntu22_ubuntu24_amd64_bundle.zip, indicando dicho directorio
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 47 -
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+como destino. La salida de la terminal permite observar que el paquete contiene distintos
+recursos asociados con la distribución de SCC. Entre ellos se encuentran las notas de versión,
+un archivo .tar.gz, el manual de usuario en PDF, una firma digital .sig y el paquete de
+instalación .deb. A continuación, se ejecuta find contenido -maxdepth 3 -type f | sort, señalado
+mediante la flecha roja, con el propósito de enumerar ordenadamente los archivos extraídos.
+El resultado confirma la presencia de scc-5.14.1.ubuntu.22_amd64.deb, que constituye el
+paquete utilizado para la instalación en el sistema. También se conserva su correspondiente
+archivo de firma, lo que aporta información adicional para la distribución del software.
+
+         Figura 46. Verificación de la instalación de SCAP Compliance Checker
+
+
+
+
+Presenta las comprobaciones realizadas después de instalar SCAP Compliance Checker en el
+sistema Ubuntu. Inicialmente se ejecuta una búsqueda dentro de /opt para localizar los
+ejecutables denominados scc y cscc. Como resultado se identifican /opt/scc/cscc y
+/opt/scc/scc, correspondientes a los componentes disponibles en la instalación. Posteriormente
+se intenta introducir /opt/scc/ directamente como comando, ante lo cual Bash informa
+correctamente que se trata de un directorio y no de un ejecutable. A continuación se utiliza ls
+-lah /opt/scc/ para visualizar el contenido del directorio de instalación. La salida muestra
+diversos componentes, entre ellos bin, Documentation, lib64, Resources, cscc, scc y archivos
+adicionales de configuración y firma. Finalmente, se ejecuta dpkg -l | grep -i scc para
+consultar el registro de paquetes instalados en Ubuntu. El resultado identifica el paquete
+spawarscc, muestra la versión 5.14.1, la arquitectura amd64 y la descripción SCAP
+Compliance Checker. Estos datos permiten confirmar tanto la instalación como la versión y
+arquitectura utilizadas. Por lo tanto, la evidencia demuestra que SCC quedó correctamente
+registrado e instalado en el sistema y que sus componentes principales se encuentran
+disponibles bajo /opt/scc/.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​      - 48 -
+ ​      ​       ​       ​        ​   ​    Escuela Profesional de Ingeniería de Sistemas
+
+
+Figura 47 (a,b,c). Ejecución de la interfaz gráfica de SCAP Compliance Checker 5.14.1
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                  ​    ​      - 49 -
+ ​       ​      ​        ​       ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+Muestra la interfaz gráfica de SCAP Compliance Checker 5.14.1 ejecutándose correctamente
+sobre el sistema Ubuntu utilizado en el laboratorio. En la barra superior de la aplicación se
+identifica explícitamente la versión 5.14.1 y el perfil de configuración cargado desde
+/opt/scc/options.xml. La sección izquierda presenta el flujo principal de operación, compuesto
+por la selección del tipo de análisis, selección del contenido y el botón destinado a iniciar el
+escaneo. El tipo de evaluación actualmente visible corresponde a Local Scan, adecuado para
+analizar el propio equipo donde se encuentra instalado SCC. En el panel central se observa
+que la aplicación ya reconoce distintos contenidos SCAP agrupados bajo las categorías Linux
+y UNIX. Entre los contenidos visibles aparecen referencias para Ubuntu, Kubernetes, Mozilla
+Firefox y Apache Server. La interfaz también muestra información sobre versión, publicador,
+versión SCAP y presencia de preguntas manuales para cada contenido. En la parte inferior se
+encuentra el registro de actividad, donde se observa la finalización del proceso de verificación
+de contenidos mediante el mensaje Content verification complete
+
+
+
+7. Cargar el contenido SCAP de Ubuntu 24.04 en SCC
+
+Una vez instalado SCC, se procederá a importar o instalar el contenido correspondiente al:
+
+Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark.
+
+Se comprobará que el benchmark sea reconocido correctamente por SCC y que se encuentre
+disponible para realizar la evaluación del sistema.
+
+
+
+                    Figura 48. Inicio de la instalación de contenido en SCC
+
+
+
+
+Se muestra la interfaz principal de SCAP Compliance Checker 5.14.1, dentro de la sección de
+selección de contenido. En la lista aparecen inicialmente seis contenidos SCAP habilitados,
+incluyendo los benchmarks de Ubuntu 22.04 y Ubuntu 24.04. La flecha señala el botón
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​      - 50 -
+ ​      ​       ​       ​        ​   ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+Install, utilizado para incorporar contenido SCAP adicional a la herramienta. Esta función
+permite cargar benchmarks externos que posteriormente pueden emplearse en las
+evaluaciones de cumplimiento. En este momento SCC ya disponía de
+CAN_Ubuntu_24-04_STIG versión 001.004.006, publicado por DISA+NIWC y basado en
+SCAP 1.4. La captura documenta el punto de partida antes de importar manualmente el
+benchmark descargado.
+
+
+
+             Figura 49. Selección del benchmark SCAP 1.3 de Ubuntu 24.04
+
+
+
+
+La ventana de instalación permite seleccionar el archivo que será incorporado a SCAP
+Compliance Checker. Se navega hasta el directorio Laboratorio-Hardening/03-scap, utilizado
+anteriormente para almacenar el benchmark oficial descargado. Se selecciona
+U_CAN_Ubuntu_24-04_LTS_V1R5_STIG_SCAP_1-3_Benchmark.zip, correspondiente al
+contenido SCAP 1.3 para Ubuntu 24.04 LTS. La selección establece una relación directa entre
+el archivo descargado y verificado previamente y su posterior utilización dentro de SCC. El
+botón Abrir permite entregar el archivo a la aplicación para que realice su procesamiento y
+validación. De esta manera se inicia formalmente la incorporación del benchmark al conjunto
+de contenidos disponibles para los análisis.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 51 -
+ ​       ​        ​        ​      ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+                      Figura 50. Instalación y validación del contenido SCAP
+
+
+
+
+Después de importar el archivo, SCC muestra una nueva entrada CAN_Ubuntu_24-04_STIG
+con versión 001.005 y estándar SCAP 1.3. El contador de contenidos cambia, evidenciando
+que SCC reconoció correctamente el benchmark incorporado. En el registro inferior se
+observa        la       carga      del       datastream      asociado        al      archivo
+U_CAN_Ubuntu_24-04_LTS_V1R5_STIG_SCAP_1-3_Benchmark. SCC realiza además la
+validación de la firma digital XML y comprueba los diferentes tipos de contenido disponibles.
+Finalmente, el mensaje Content verification complete confirma que el proceso de verificación
+terminó sin mostrar un error de instalación. La captura demuestra que el benchmark externo
+quedó incorporado correctamente sin sustituir el contenido SCAP 1.4 existente.
+
+             Figura 51. Verificación del contenido Ubuntu 24.04 preinstalado
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​    ​      - 52 -
+ ​      ​       ​       ​        ​   ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+Se selecciona el contenido CAN_Ubuntu_24-04_STIG versión 001.004.006, basado en SCAP
+1.4, para consultar sus propiedades. El panel Content Details identifica el benchmark como
+Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark - NIWC Enhanced with Manual
+Questions. También se observa que el contenido está asociado a Ubuntu 24.04 LTS y presenta
+el estado de validación pass. La información de Release indica que este contenido mejorado
+está basado en Release 5, mientras que su editor aparece como DISA+NIWC. Asimismo,
+SCC muestra un perfil seleccionable, en este caso MAC-1_Classified, además de información
+sobre firma, instalación y plataforma. Esta evidencia permite comprobar que SCC dispone de
+una versión enriquecida SCAP 1.4 apta para realizar la evaluación posterior.
+
+
+
+              Figura 52. Selección de contenidos Ubuntu para la evaluación
+
+
+
+
+Finalmente se deshabilitan los contenidos que no forman parte del objetivo del laboratorio,
+como Kubernetes, Firefox y los benchmarks de Apache. En la categoría Linux permanecen
+visibles las dos entradas correspondientes a Ubuntu 24.04: la versión 001.004.006 basada en
+SCAP 1.4 y la versión 001.005 basada en SCAP 1.3 importada manualmente. La captura
+permite comprobar claramente la coexistencia de ambos benchmarks dentro de SCAP
+Compliance Checker. Esto demuestra que la importación del contenido anterior no eliminó ni
+reemplazó el contenido SCAP 1.4 proporcionado con SCC. Para la evaluación principal
+conviene utilizar el contenido SCAP 1.4, ya que es el contenido mejorado que SCC tiene
+instalado y validado. El benchmark SCAP 1.3 queda conservado como evidencia de la
+importación solicitada durante el desarrollo del laboratorio.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 53 -
+ ​        ​      ​       ​       ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+8. Ejecutar el primer análisis de seguridad
+
+Se ejecutará un primer análisis del sistema operativo utilizando SCC y el benchmark
+correspondiente a Ubuntu 24.04.
+
+El objetivo será determinar el estado inicial de cumplimiento de los controles de seguridad
+antes de realizar cualquier modificación.
+
+Una vez finalizado el análisis se revisarán los resultados generados por la herramienta,
+identificando:
+
+     ●​ Porcentaje o puntaje de cumplimiento.
+     ●​ Controles aprobados.
+     ●​ Controles incumplidos.
+     ●​ Controles no aplicables.
+     ●​ Controles que requieren revisión manual.
+     ●​ Hallazgos clasificados por nivel de severidad.
+
+Los reportes generados en esta etapa serán almacenados como evidencia del estado antes del
+hardening.
+
+
+
+Figura 53. Actualización del contenido SCAP y selección del perfil de evaluación
+
+
+
+
+Se muestra SCAP Compliance Checker actualizando el contenido asociado al benchmark de
+Ubuntu 24.04 LTS. En el panel derecho se encuentra seleccionado el perfil MAC-1_Public,
+que será utilizado para realizar la evaluación de cumplimiento. Durante la actualización, SCC
+verifica los diferentes componentes del contenido SCAP instalado. El proceso incluye la
+comprobación de los archivos SCAP, OVAL y OCIL disponibles. También se observa la carga
+del componente relacionado con las preguntas manuales del benchmark. Esta configuración
+permite preparar correctamente el contenido antes de comenzar el análisis.
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​      - 54 -
+ ​       ​       ​      ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+      Figura 54. Verificación de los detalles del benchmark y perfil MAC-1_Public
+
+
+
+
+Se presentan los detalles del contenido Canonical Ubuntu 24.04 LTS STIG SCAP Benchmark
+- NIWC Enhanced with Manual Questions. En el apartado Profile se confirma nuevamente la
+selección de MAC-1_Public. La herramienta muestra información adicional como la versión,
+fecha de publicación y estado del contenido. También se observa que la validación del
+benchmark aparece con el estado pass. La plataforma objetivo identificada por el contenido es
+Ubuntu 24.04 LTS. Estos datos permiten comprobar que el benchmark utilizado corresponde
+al sistema evaluado. De esta forma queda documentada la configuración del contenido antes
+de ejecutar el análisis.
+
+
+
+             Figura 55. Selección exclusiva del benchmark de Ubuntu 24.04 LTS
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 55 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se configura SCC para realizar un análisis de tipo Local Scan sobre el equipo. En la sección
+de selección de contenido aparece el indicador 1 of 7 Enabled, confirmando que solamente un
+benchmark permanece habilitado. El contenido seleccionado corresponde a
+CAN_Ubuntu_24-04_STIG. Los demás contenidos disponibles, incluyendo Kubernetes,
+Firefox y Apache, permanecen desmarcados. Esta selección evita incorporar controles que no
+corresponden al objetivo principal de la práctica. De esta manera, la evaluación queda
+enfocada exclusivamente en la configuración de seguridad de Ubuntu 24.04 LTS. La
+evidencia documenta la configuración inmediatamente anterior a la ejecución del escaneo.
+
+
+
+         Figura 56. Creación del directorio para evidencias previas al hardening
+
+
+
+
+Se utiliza la terminal de Ubuntu para crear el directorio 08-scan-antes dentro del laboratorio
+de hardening. El comando mkdir -p permite generar el directorio destinado a organizar las
+evidencias relacionadas con el análisis inicial. Posteriormente se accede a dicha ubicación
+mediante el comando cd. Para comprobar la ruta actual se ejecuta pwd. La terminal devuelve
+/home/carlos-daniel/Laboratorio-Hardening/08-scan-antes. Esta organización permite separar
+las evidencias obtenidas antes de aplicar las medidas de endurecimiento. El directorio servirá
+como referencia para comparar posteriormente los resultados iniciales y finales.
+
+
+
+      Figura 57. Advertencia de preguntas manuales pendientes antes del escaneo
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 56 -
+ ​      ​       ​       ​        ​   ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+Al iniciar el análisis, SCC muestra una advertencia indicando que el contenido seleccionado
+contiene Manual Questions sin resultados registrados. El mensaje identifica específicamente
+el benchmark CAN_Ubuntu_24-04_STIG versión 001.004.006. La herramienta informa que
+es posible completar estas preguntas utilizando los mecanismos proporcionados por SCC.
+También advierte que, si se continúa sin responderlas, los controles manuales serán
+considerados como no respondidos. En esta práctica se selecciona la opción Continue para
+proceder con el análisis automático. Esto permite evaluar los controles que SCC puede
+comprobar directamente sobre el sistema. La advertencia explica posteriormente la presencia
+de controles manuales en estado Not Checked.
+
+
+
+             Figura 58. Ejecución del análisis inicial de cumplimiento SCAP
+
+
+
+
+Se observa SCAP Compliance Checker ejecutando el análisis sobre el equipo local. La
+sección de salida muestra la carga y procesamiento de los componentes correspondientes al
+benchmark de Ubuntu 24.04 LTS. SCC valida las firmas digitales de los archivos utilizados
+durante la evaluación. También se procesan componentes SCAP como OCIL, CPE-OVAL y
+OVAL. La herramienta identifica el sistema objetivo y utiliza el perfil MAC-1_Public
+previamente seleccionado. Durante el proceso se advierte nuevamente que las preguntas
+manuales no cuentan con un archivo de respuestas. Esta evidencia confirma que el análisis
+inicial de cumplimiento se encuentra efectivamente en ejecución.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 57 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+         Figura 59. Finalización del análisis y obtención de la puntuación inicial
+
+
+
+
+La herramienta muestra la finalización del análisis de cumplimiento realizado sobre Ubuntu
+24.04 LTS. SCC informa una puntuación Adjusted Score de 27.27 % y una Original Score de
+27.27 %. La clasificación obtenida aparece identificada con el estado RED, indicando un
+nivel bajo de cumplimiento respecto al benchmark evaluado. También se informa que las
+preguntas manuales no respondidas serán consideradas como Not Reviewed. El análisis tuvo
+una duración aproximada de cinco minutos y veinticinco segundos. Posteriormente SCC
+procesa los datos de la sesión y genera el visor de resumen correspondiente. Esta puntuación
+constituye el valor inicial que será utilizado como referencia antes del hardening.
+
+
+
+            Figura 60. Visualización de la sesión y reportes generados por SCC
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 58 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se presenta el visor de resultados de SCAP Compliance Checker con la sesión
+correspondiente al análisis realizado. La sesión registra una puntuación promedio, máxima y
+mínima de 27.27 % para el único host evaluado. En la tabla inferior se identifica el equipo
+analizado junto con el contenido CAN_Ubuntu_24-04_STIG. La interfaz muestra además 94
+errores de sesión y 1 advertencia, diferenciados de los estados de cumplimiento de las reglas
+del benchmark. En la sección de reportes aparecen archivos HTML correspondientes a All
+Settings y Non-Compliance. Estos documentos contienen información detallada de los
+controles evaluados durante el escaneo. La evidencia confirma que SCC almacenó
+correctamente la sesión y generó los reportes necesarios para analizar los resultados.
+
+
+
+         Figura 61. Ubicación de los archivos generados por la sesión de análisis
+
+
+
+
+Se muestra el explorador de archivos ubicado dentro del directorio de la sesión creada por
+SCAP       Compliance      Checker.      La     ruta     corresponde      a      la    carpeta
+SCC/Sessions/2026-08-26_165427. Dentro de ella se encuentran los directorios Logs y
+Results, utilizados para almacenar la información producida durante el análisis. También
+aparece el archivo HTML SCC_Summary_Viewer_2026-08-26_165427.html. Este archivo
+funciona como visor general de los resultados obtenidos en la sesión. La estructura generada
+permite conservar tanto los registros técnicos como los reportes de cumplimiento. Esta
+evidencia documenta la ubicación de los resultados para su posterior consulta y respaldo.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 59 -
+ ​       ​      ​       ​        ​    ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+             Figura 62. Reporte inicial de cumplimiento antes del hardening
+
+
+
+
+Se visualiza en el navegador el reporte All Settings Report correspondiente al benchmark de
+Ubuntu 24.04 LTS. El resultado general obtenido por el sistema es de 27.27 %, clasificado por
+SCC con estado RED. El reporte registra 48 controles Pass y 128 controles Fail de un total de
+194 reglas. También aparecen 2 controles Not Applicable y 16 Not Checked, estos últimos
+relacionados con las preguntas manuales no respondidas. En la sección System Information se
+confirma que el sistema evaluado utiliza Ubuntu 24.04. Este reporte representa el estado de
+cumplimiento del equipo antes de aplicar las configuraciones de endurecimiento. Por ello,
+constituye la principal línea base para comparar posteriormente los resultados obtenidos
+después del hardening.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​       - 60 -
+ ​        ​      ​      ​        ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+9. Identificación de controles que requieren hardening
+
+A partir del reporte inicial se identificarán los controles que presenten un estado FAIL.
+
+Se analizará cada hallazgo considerando:
+
+     ●​ Identificador STIG.
+     ●​ Descripción del problema.
+     ●​ Nivel de severidad.
+     ●​ Estado actual.
+     ●​ Configuración requerida.
+     ●​ Procedimiento recomendado para su corrección.
+
+Debido a que Ubuntu 24.04 se encuentra instalado como sistema operativo principal, se
+priorizará configuraciones que puedan ser aplicadas y revertidas de forma segura, evitando
+modificaciones que puedan comprometer el acceso o funcionamiento normal del equipo.
+
+
+
+     Figura 63. Creación de la estructura de trabajo para diez controles de hardening
+
+
+
+
+Se creó el directorio ~/Laboratorio-Hardening/09-hardening para almacenar las evidencias
+correspondientes al proceso de endurecimiento. Posteriormente se accedió a dicha ubicación
+mediante cd y se verificó la ruta actual utilizando pwd. A continuación se generaron diez
+subdirectorios mediante el comando mkdir -p control-{01..10}, uno para cada control STIG
+que será tratado durante esta etapa. Finalmente, el comando ls -lh permitió comprobar que los
+directorios control-01 hasta control-10 fueron creados correctamente. Esta estructura facilita
+la separación de las evidencias de estado inicial, modificaciones realizadas y verificaciones
+posteriores. La organización por control permitirá documentar de manera individual el
+procedimiento de hardening aplicado a cada hallazgo. De esta forma queda preparado el
+entorno de trabajo para registrar sistemáticamente el antes y el después de los diez controles
+seleccionados.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                        ​     ​       - 61 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+ Figura 64. Identificación de controles incumplidos de baja severidad en el reporte SCC
+
+
+
+
+Se abrió el Non-Compliance Report generado por SCAP Compliance Checker después del
+análisis inicial del sistema. La captura muestra específicamente la sección Results: Low
+Severity (CAT III), donde aparecen diferentes controles evaluados automáticamente con
+resultado Fail. Entre los hallazgos visibles se encuentran requisitos relacionados con
+systemd-timesyncd, Chrony, limitación de sesiones concurrentes, retrasos tras intentos
+fallidos de autenticación, restricciones del buffer del kernel y sincronización de tiempo. Cada
+entrada se encuentra identificada mediante su correspondiente código V-, lo que facilita su
+posterior relación con el STIG. El reporte también permite distinguir los controles
+automatizados de los controles que requieren comprobación manual. Esta revisión sirvió
+como base para identificar candidatos de bajo impacto que pudieran ser utilizados en el
+proceso de hardening. De esta manera se comenzó la selección de controles que presentan un
+incumplimiento real en el sistema evaluado.
+
+
+
+         Figura 65. Selección de los diez controles candidatos para el hardening
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 62 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se elaboró una lista de controles candidatos utilizando los resultados obtenidos en el reporte
+de no conformidades. La captura muestra controles de categorías CAT III y CAT II, todos
+previamente identificados con resultado Fail. Entre ellos se incluyen los identificadores
+V-270645, V-270664, V-270677, V-270706, V-270749, V-270751, V-270752, V-270820,
+V-270724 y V-270681. Los controles seleccionados abarcan configuraciones relacionadas con
+acceso a la cuenta root, monitoreo de accesos remotos, sincronización de tiempo, sesiones
+concurrentes, PAM, parámetros del kernel y auditoría. La selección de diez elementos permite
+superar el requisito mínimo planteado originalmente para el laboratorio. Además, la lista
+facilita organizar el procedimiento de evaluación y corrección de cada hallazgo de forma
+independiente. Esta evidencia representa la definición del conjunto de controles que será
+utilizado para documentar el proceso de endurecimiento.
+
+
+
+                    Figura 66. Revisión detallada del control V-270645
+
+
+
+
+Se accedió al detalle del control V-270645, identificado en el reporte como un hallazgo de
+baja severidad. El requisito establece que Ubuntu 24.04 LTS no debe tener instalado el
+paquete systemd-timesyncd. La sección Rule Result muestra que el resultado obtenido
+durante el escaneo fue Fail. En Check Text se presenta el comando dpkg -l | grep
+systemd-timesyncd, utilizado para determinar si el paquete se encuentra instalado en el
+sistema. El Fix Text indica que el paquete debe ser eliminado mediante sudo apt-get purge
+systemd-timesyncd. La evidencia también muestra la severidad low y la información técnica
+utilizada por SCC para determinar el incumplimiento. Esta revisión permite documentar tanto
+la causa del hallazgo como el procedimiento oficial recomendado para su corrección antes de
+realizar cualquier modificación.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 63 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+         Figura 67. Captura automatizada del estado inicial de los diez controles
+
+
+
+
+Se ejecutó un script denominado guardar-evidencia.sh con el objetivo de recopilar
+automáticamente el estado inicial de los diez controles seleccionados. En un primer intento se
+utilizó un nombre incorrecto para el script, generándose el mensaje de que el archivo no
+existía; posteriormente se ejecutó correctamente el archivo disponible. El script procesa
+secuencialmente los controles V-270724, V-270681, V-270645, V-270664, V-270677,
+V-270706, V-270749, V-270751, V-270752 y V-270820. Entre los resultados se observa que
+systemd-timesyncd está instalado, que kernel.dmesg_restrict ya posee el valor 1 y que
+/etc/chrony/chrony.conf aún no existe en el sistema. También se muestra que la zona horaria
+actual corresponde a America/Lima. El script finaliza indicando que las evidencias fueron
+almacenadas correctamente dentro del directorio 09-hardening. Esta captura documenta la
+recopilación del estado antes del hardening para los diez controles.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 64 -
+ ​       ​         ​      ​      ​      ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+             Figura 68. Verificación de las evidencias guardadas para cada control
+
+
+
+
+Se utilizó el comando tree para comprobar la estructura de archivos generada después de
+ejecutar el script de captura inicial. El resultado muestra los diez directorios control-01 a
+control-10, cada uno conteniendo su respectivo archivo antes.txt. También se observa el
+archivo candidatos.txt y el script guardar-evidencia.sh utilizado para automatizar las
+comprobaciones. En total, la estructura contiene once directorios y doce archivos,
+confirmando que se generó una evidencia independiente para cada uno de los diez controles.
+Posteriormente se utilizó cat guardar-evidencia.sh para revisar el contenido del script y
+comprobar su funcionamiento. En el código se observa que el directorio base utilizado
+corresponde a ~/Laboratorio-Hardening/09-hardening y que las verificaciones se ejecutan de
+manera individual por control. Esta organización permitirá comparar posteriormente los
+archivos antes.txt con las evidencias generadas después de aplicar las medidas de hardening.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​      - 65 -
+ ​         ​      ​       ​       ​       ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+10. Aplicación del hardening a un mínimo de diez controles
+
+Se seleccionarán como mínimo diez controles de seguridad identificados como incumplidos
+durante el análisis inicial.
+
+Para cada control se deberá documentar:
+
+     1.​ Identificador del control.
+     2.​ Descripción.
+     3.​ Nivel de severidad.
+     4.​ Estado inicial.
+     5.​ Evidencia antes de realizar la modificación.
+     6.​ Configuración o comando utilizado para aplicar el hardening.
+     7.​ Evidencia de la configuración realizada.
+     8.​ Resultado obtenido posteriormente.
+
+Antes de modificar archivos de configuración importantes se realizará una copia de respaldo
+cuando sea necesario.
+
+Las modificaciones podrán involucrar configuraciones relacionadas con servicios, permisos,
+paquetes, auditoría, parámetros del kernel u otros componentes de seguridad de Ubuntu.
+
+
+
+         Figura 69. Creación del directorio seguro de respaldo previo al hardening.
+
+
+
+
+Se creó el directorio /root/stig-hardening-backup-20260826-185300 con permisos 700 para
+almacenar de forma protegida las copias de seguridad de los archivos de configuración que
+serían modificados durante la aplicación de los controles STIG.
+
+
+
+     Figura 70. Respaldo de archivos críticos antes de aplicar las configuraciones de seguridad.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                           ​     ​       - 66 -
+ ​        ​      ​      ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se realizaron copias de seguridad de archivos relacionados con autenticación, contraseñas,
+límites de usuario, registro de eventos y parámetros del kernel. La verificación mediante ls
+-lah confirma que los respaldos fueron almacenados bajo propiedad de root, incluyendo el
+archivo sensible /etc/shadow.
+
+
+
+Figura 71. Aplicación control V-270724 para bloquear el acceso directo a la cuenta root
+
+
+
+
+Se verificó inicialmente que la cuenta root presentaba el estado P, indicando la existencia de
+una contraseña utilizable. Posteriormente se ejecutó passwd -l root, obteniéndose el estado L,
+lo que confirma el bloqueo de la contraseña de root y mitiga el riesgo de inicio de sesión
+directo con dicha cuenta.
+
+
+
+     Figura 72. Configuración del registro de accesos remotos mediante rsyslog para el
+                                         V-270681.
+
+
+
+
+Se comprobó que rsyslog se encontraba activo y se creó el archivo 60-stig-remote-access.conf
+para registrar eventos auth, authpriv y daemon. La configuración fue validada correctamente
+mediante rsyslogd -N1, y la comprobación posterior confirma la presencia de las reglas y que
+el servicio continúa activo.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 67 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+        Figura 73. Instalación y activación de Chrony para el control V-270664.
+
+
+
+
+Se instaló el paquete chrony como mecanismo de sincronización de tiempo requerido.
+Durante el procedimiento se observa además la sustitución de systemd-timesyncd. La
+comprobación posterior mediante dpkg confirma la instalación de Chrony y systemctl
+is-active chrony muestra el servicio en estado active.
+
+
+
+     Figura 74. Eliminación de systemd-timesyncd para el cumplimiento del control
+                                      V-270645.
+
+
+
+
+Se verificó la presencia del paquete systemd-timesyncd y posteriormente se realizó su purga.
+La comprobación final no devuelve coincidencias para dicho paquete, mientras que Chrony
+permanece activo, confirmando la sustitución del mecanismo de sincronización temporal.
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 68 -
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 75. Configuración de fuentes NTP autoritativas para el control V-270751.
+
+
+
+
+Se revisó el archivo /etc/chrony/chrony.conf, identificándose varios pools NTP de Ubuntu
+previamente configurados. Además, se añadió la directiva pool ntp.ubuntu.com iburst maxpoll
+16, dejando registrada la configuración utilizada para que Chrony consulte periódicamente
+fuentes de tiempo externas.
+
+
+
+ Figura 76. Configuración de makestep y comprobación del funcionamiento de Chrony
+                              para el control V-270752.
+
+
+
+
+Se configuró la directiva makestep 1.0 3 y se reinició el servicio Chrony. Sin embargo, en esta
+captura chronyc tracking presenta Stratum: 0, Reference ID: 00000000 y Leap status: Not
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 69 -
+ ​      ​       ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+synchronised, mientras que chronyc sources -v todavía no muestra fuentes disponibles. Por
+tanto, la configuración está aplicada, pero esta captura no demuestra todavía una
+sincronización NTP efectiva.
+
+
+
+        Figura 77. Limitación de sesiones concurrentes para el control V-270677.
+
+
+
+
+Se creó el archivo /etc/security/limits.d/99-stig-maxlogins.conf con la directiva * hard
+maxlogins 10. La consulta posterior confirma que el límite máximo de diez sesiones
+concurrentes quedó definido para las cuentas del sistema.
+
+
+
+  Figura 78. Configuración del retraso de autenticación mediante PAM para el control
+                                       V-270706.
+
+
+
+
+Se verificó la existencia del módulo pam_faildelay.so, se generó un respaldo adicional de
+common-auth y se incorporó la directiva auth optional pam_faildelay.so delay=4000000,
+estableciendo un retraso de cuatro segundos. La salida confirma que la directiva quedó
+incorporada; sin embargo, el intento de guardar la evidencia produjo el mensaje No existe el
+archivo o el directorio, por lo que control-06/despues.txt no fue creado.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 70 -
+ ​       ​      ​       ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Figura 79. Persistencia de la restricción de acceso al búfer de mensajes del kernel para el
+                                     control V-270749.
+
+
+
+
+Se creó el archivo /etc/sysctl.d/99-stig-dmesg-restrict.conf con kernel.dmesg_restrict = 1 y se
+recargaron los parámetros mediante sysctl --system. La salida confirma que el valor
+permanece establecido en 1, restringiendo el acceso de usuarios no privilegiados a los
+mensajes del kernel.
+
+
+
+     Figura 80. Configuración de UTC como zona horaria del sistema para el control
+                                      V-270820.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 71 -
+ ​       ​       ​      ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se registró inicialmente la zona horaria America/Lima y posteriormente se aplicó timedatectl
+set-timezone UTC. La verificación final muestra Time zone: UTC (UTC, +0000),
+confirmando la aplicación de la configuración requerida.
+
+
+
+             Figura 81. Estructura final de evidencias del proceso de hardening.
+
+
+
+
+La salida del comando tree muestra la organización de las evidencias de los diez controles
+evaluados, conservando archivos antes.txt y despues.txt, así como los registros auxiliares del
+respaldo, paquetes y zona horaria. Se observa como única inconsistencia que control-06
+todavía contiene únicamente antes.txt, debido al error ocurrido al intentar guardar su
+evidencia posterior.
+
+
+
+11. Ejecutar el segundo análisis de seguridad
+
+Después de aplicar las medidas de hardening se volverá a ejecutar SCC utilizando el mismo
+benchmark utilizado en el análisis inicial.
+
+Se generará un nuevo reporte con el objetivo de comprobar si los controles modificados
+cambiaron su estado de FAIL a PASS y determinar si se produjo una mejora en el nivel
+general de cumplimiento del sistema.
+
+Los resultados obtenidos serán almacenados como evidencia del estado después del
+hardening.
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 72 -
+ ​         ​      ​      ​       ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+     Figura 82. Verificación de evidencias antes y después de la aplicación del hardening
+
+
+
+
+Se verificó mediante un ciclo en Bash la existencia de los archivos antes.txt y despues.txt
+correspondientes a los diez controles STIG seleccionados. El resultado ANTES=OK y
+DESPUES=OK para todos los controles confirma que se dispone de evidencia del estado
+previo y posterior a las modificaciones realizadas.
+
+
+
+Figura 83. Creación del directorio para almacenar evidencias del segundo análisis SCC
+
+
+
+
+Se creó el directorio ~/Laboratorio-Hardening/11-scan-despues, destinado a almacenar las
+evidencias y resultados asociados a la evaluación de cumplimiento posterior al proceso de
+hardening. El comando pwd confirma la ubicación correcta del directorio de trabajo.
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                      ​    ​      - 73 -
+ ​       ​      ​       ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+     Figura 84. Verificación del estado de seguridad previo al segundo análisis SCC
+
+
+
+
+Se realizó una comprobación consolidada de las principales configuraciones modificadas
+durante el hardening. Se evidencia el bloqueo de la cuenta root, el funcionamiento activo de
+Chrony, la sincronización correcta del reloj mediante NTP, la utilización de UTC, la
+restricción de acceso a dmesg, el límite de diez sesiones concurrentes y la configuración de un
+retraso de cuatro segundos mediante pam_faildelay.so.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​       - 74 -
+ ​        ​      ​      ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+     Figura 85. Selección del contenido SCAP para la evaluación posterior al hardening
+
+
+
+
+Se configuró SCAP Compliance Checker 5.14.1 para realizar un análisis local utilizando
+exclusivamente el contenido CAN_Ubuntu_24-04_STIG, versión 001.004.006 y SCAP 1.4.
+Mantener el mismo contenido utilizado en la evaluación inicial permite realizar una
+comparación consistente entre ambos resultados.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 75 -
+ ​       ​      ​       ​        ​    ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+        Figura 86. Advertencia de verificaciones manuales no respondidas en SCC
+
+
+
+
+Antes de iniciar el segundo análisis, SCC informó que el contenido seleccionado contiene
+verificaciones manuales sin responder. Se seleccionó la opción Continue para mantener dichas
+verificaciones como no revisadas, conservando las mismas condiciones utilizadas durante la
+evaluación inicial.
+
+     Figura 87. Ejecución del segundo análisis de cumplimiento con SCAP Compliance
+                                        Checker
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​     ​      - 76 -
+ ​      ​       ​       ​        ​   ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se inició la evaluación posterior al hardening utilizando el perfil MAC-1_Public sobre el
+sistema Ubuntu 24.04 LTS. SCC procesó automáticamente las reglas del benchmark
+seleccionado mientras las verificaciones manuales permanecieron clasificadas como Not
+Reviewed.
+
+        Figura 88. Finalización del segundo análisis SCC posterior al hardening
+
+
+
+
+SCAP Compliance Checker finalizó correctamente la evaluación en aproximadamente cinco
+minutos, obteniendo un Adjusted Score y Original Score de 30.68 %. SCC generó una nueva
+sesión y los correspondientes reportes de cumplimiento para analizar los resultados
+posteriores a las modificaciones.
+
+
+
+      Figura 89. Generación de reportes de cumplimiento posteriores al hardening
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                    ​    ​      - 77 -
+ ​        ​      ​      ​        ​     ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+Se verificó la generación de los reportes All-Settings y Non-Compliance correspondientes a la
+nueva sesión SCC. Estos archivos contienen el detalle completo de los controles evaluados y
+permiten contrastar el estado final del sistema con los resultados obtenidos antes del proceso
+de hardening.
+
+     Figura 90. Resultado final de cumplimiento posterior a la aplicación del hardening
+
+
+
+
+El reporte Non-Compliance muestra un resultado de cumplimiento de 30.68 %, con 54
+controles aprobados (Pass), 122 controles fallidos (Fail), 2 no aplicables y 16 no verificados,
+sobre un total de 194 controles. En comparación con la evaluación inicial de 27.27 %, se
+observa una mejora de 3.41 puntos porcentuales, junto con seis controles adicionales
+aprobados y seis controles menos en estado de incumplimiento.
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                       ​     ​      - 78 -
+ ​      ​       ​       ​        ​   ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+Figura 91. Resultado final del análisis de cumplimiento posterior al hardening
+
+
+
+
+Se visualiza el reporte Non-Compliance Report generado por SCAP Compliance Checker
+después de aplicar y verificar las medidas de hardening sobre Ubuntu 24.04 LTS. El análisis
+final muestra una puntuación de cumplimiento de 31.82 %, manteniéndose la clasificación
+general en estado RED. De un total de 194 controles evaluados, 56 fueron clasificados como
+Pass y 120 como Fail. Además, se registraron 2 controles Not Applicable y 16 controles Not
+Checked, estos últimos asociados a preguntas manuales no respondidas. En comparación con
+la evaluación inicial de 27.27 %, se evidencia una mejora de 4.55 puntos porcentuales en el
+nivel de cumplimiento. Asimismo, los controles aprobados aumentaron de 48 a 56 y los
+incumplimientos disminuyeron de 128 a 120, demostrando el efecto positivo de las
+configuraciones de seguridad aplicadas.
+
+
+
+Figura 92. Resultado final de cumplimiento después de aplicar los controles adicionales
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                     ​    ​      - 79 -
+ ​        ​      ​      ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+La figura muestra el reporte final de Non-Compliance generado por SCAP Compliance
+Checker 5.14.1 después de aplicar los dos controles adicionales seleccionados para el
+laboratorio. El análisis presenta una puntuación de cumplimiento de 32.95 %, manteniendo el
+estado general en RED debido a que todavía existen numerosos controles pendientes. De un
+total de 194 reglas evaluadas, 58 se encuentran en estado Pass y 118 en estado Fail, mientras
+que 2 fueron clasificadas como Not Applicable y 16 permanecen como Not Checked por
+corresponder a preguntas manuales no respondidas. En comparación con la evaluación
+anterior de 31.82 %, se observa una mejora adicional de 1.13 puntos porcentuales, con dos
+controles más aprobados y dos controles menos fallidos.
+
+
+
+
+     3.​ Conclusiones
+
+
+     ●​ La ejecución del laboratorio permitió comprobar de forma práctica el proceso de
+        evaluación y endurecimiento de seguridad de un sistema Ubuntu 24.04 LTS utilizando
+        como referencia los controles definidos en el Security Technical Implementation
+        Guide (STIG) y la herramienta SCAP Compliance Checker 5.14.1. La metodología
+        permitió identificar configuraciones que no cumplían los requisitos de seguridad y
+        aplicar medidas correctivas de manera controlada.
+     ●​ El primer análisis realizado con el benchmark Canonical Ubuntu 24.04 LTS STIG,
+        SCAP 1.4 y el perfil MAC-1_Public obtuvo una puntuación inicial de 27.27 %, con 48
+        controles aprobados y 128 controles fallidos de un total de 194 reglas evaluadas. Este
+        resultado permitió establecer una línea base objetiva del estado de seguridad del
+        equipo antes de realizar el proceso de hardening.
+     ●​ A partir del reporte de no conformidades se seleccionaron diez controles STIG
+        relacionados   con autenticación, acceso administrativo, registro de eventos,
+        sincronización de tiempo, limitación de sesiones y protección de información del
+        kernel. Antes de modificar el sistema se generaron respaldos de los principales
+        archivos de configuración, permitiendo reducir el riesgo de pérdida de acceso o
+        funcionamiento incorrecto del sistema operativo.
+
+
+
+
+     ●​ La aplicación de las medidas de hardening permitió reforzar diferentes mecanismos de
+        seguridad del sistema, entre ellos el bloqueo del acceso directo mediante contraseña a
+
+Dr. Renzo Alberto Taco Coayla​                                       ​    ​       - 80 -
+ ​        ​          ​       ​       ​         ​      Escuela Profesional de Ingeniería de Sistemas
+
+
+        la cuenta root, la configuración de registros mediante rsyslog, la instalación y
+        utilización de Chrony, la eliminación de systemd-timesyncd, la limitación de sesiones
+        concurrentes, el establecimiento de retardos ante intentos fallidos de autenticación, la
+        restricción de acceso a mensajes del kernel y la utilización de UTC para las marcas de
+        tiempo.
+     ●​ El análisis posterior al proceso de hardening produjo una puntuación final de 31.82 %,
+        con 56 controles aprobados y 120 controles fallidos. Esto representa una mejora de
+        4.55 puntos porcentuales respecto del resultado inicial, además de un incremento de 8
+        controles en estado Pass y una reducción equivalente de controles en estado Fail. Los
+        resultados demuestran que las modificaciones realizadas tuvieron un efecto medible
+        sobre el nivel de cumplimiento del sistema.
+     ●​ Aunque se trabajó sobre diez controles, el resultado automatizado final reflejó una
+        mejora neta de ocho reglas. Esto evidencia que la aplicación de una configuración
+        aparentemente correcta no garantiza automáticamente que un control sea considerado
+        conforme por una herramienta SCAP, ya que la evaluación puede depender de
+        condiciones, formatos o parámetros específicos definidos dentro del contenido del
+        benchmark. Por ello, resulta necesario verificar tanto el estado real del sistema como
+        el resultado obtenido mediante la herramienta de cumplimiento.
+     ●​ Durante las evaluaciones se mantuvieron 16 controles en estado Not Checked debido a
+        preguntas manuales que no fueron respondidas. Por esta razón, la propia herramienta
+        indicó que el nivel de cumplimiento real no podía determinarse completamente. Este
+        aspecto demuestra que las evaluaciones automatizadas de seguridad deben
+        complementarse con verificaciones manuales para obtener una visión más completa
+        del estado de seguridad de un sistema.
+     ●​ Finalmente, el laboratorio permitió comprobar que el hardening es un proceso
+        iterativo,       compuesto       por   evaluación,   identificación   de   vulnerabilidades   o
+        incumplimientos, aplicación de controles, verificación y evaluación. El objetivo no
+        consiste únicamente en obtener una puntuación elevada, sino en reducir
+        progresivamente la superficie de ataque y mantener configuraciones de seguridad
+        verificables, documentadas y adecuadas al contexto operativo del sistema..
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                                ​    ​       - 81 -
+ ​        ​      ​      ​         ​     ​        Escuela Profesional de Ingeniería de Sistemas
+
+
+
+     4.​ Cuestionario
+
+
+
+     ●​ ¿Cuál es la función del módulo pam_faildelay y por qué es importante en la
+        seguridad de la autenticación?
+
+        La función principal de pam_faildelay es introducir un retardo de tiempo configurable,
+        por ejemplo, 4 segundos, entre intentos fallidos de autenticación en el sistema. Es
+        fundamental para la seguridad porque mitiga los ataques de fuerza bruta y ataques
+        basados en diccionario, ya que ralentiza drásticamente la capacidad de un atacante
+        para probar contraseñas de forma automatizada o continua, reduciendo la posibilidad
+        de vulnerar cuentas locales o remotas.
+
+
+
+
+     ●​ ¿Qué riesgos implica dejar habilitado el acceso directo a la cuenta root vía SSH o
+        inicio de sesión local?
+
+        Permitir el inicio de sesión directo con root implica exponer la cuenta con máxima
+        autoridad del sistema como un objetivo directo de autenticación. El riesgo radica en
+        que un atacante solo necesita descubrir o vulnerar la contraseña de un nombre de
+        usuario predeterminado y universalmente conocido, obteniendo control administrativo
+        total e inmediato. Al deshabilitarlo y utilizar cuentas de usuario nominativas con
+        escalado mediante sudo, se facilita la auditoría individual y la identificación de quién
+        ejecutó cada comando privilegiado.
+
+
+
+
+     ●​ ¿Por qué es importante restringir el acceso al buffer de mensajes del kernel
+        (kernel.dmesg_restrict = 1)?
+
+        Es importante porque el buffer de mensajes del kernel (dmesg) contiene información
+        sobre eventos de bajo nivel del sistema operativo, memoria, fallos y hardware. Si
+        usuarios sin privilegios pueden consultar esta información, un atacante podría obtener
+        datos útiles para identificar vulnerabilidades, conocer direcciones de memoria o
+        recopilar información de depuración que facilite ataques de escalada de privilegios.
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​    ​      - 82 -
+ ​        ​        ​     ​       ​      ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+
+
+     ●​ ¿Cuál es el propósito de configurar la directiva UMASK 077 por defecto en el
+        sistema?
+
+        El propósito de utilizar una máscara de permisos restrictiva como UMASK 077 es
+        conseguir que los archivos y directorios creados por un usuario sean accesibles
+        únicamente por su propietario, sin permisos para el grupo ni para otros usuarios. Esto
+        ayuda a proteger información confidencial y evita que otros usuarios o procesos
+        locales puedan acceder, modificar o leer archivos privados.
+
+
+
+
+     ●​ ¿Por qué se exige la sincronización horaria precisa mediante servicios como
+        Chrony en entornos con estándares STIG?
+
+        Mantener la hora sincronizada mediante servicios como Chrony es indispensable para
+        la integridad de los registros y la auditoría. Si los relojes de los sistemas presentan
+        diferencias importantes, resulta difícil correlacionar eventos de seguridad y reconstruir
+        correctamente una línea temporal durante una investigación. Además, una hora
+        incorrecta puede afectar a la validación de certificados digitales, tokens de
+        autenticación y otros mecanismos que dependen de la fecha y hora del sistema.
+
+
+
+5.​ Referencias Bibliográficas
+
+     -​ Canonical Ltd. (2024). Ubuntu 24.04 LTS (Noble Numbat) documentation. Canonical.
+
+        https://help.ubuntu.com/Defense
+
+     -​ Information Systems Agency. (2026). Canonical Ubuntu 24.04 LTS Security Technical
+
+        Implementation Guide (STIG) SCAP Benchmark (Version 1, Release 5). U.S.
+
+        Department of Defense. https://public.cyber.mil/stigs/
+
+     -​ National Institute of Standards and Technology. (2020). Security and privacy controls
+
+        for information systems and organizations (NIST Special Publication 800-53,
+
+        Revision 5).
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​     ​      - 83 -
+ ​       ​       ​      ​        ​     ​       Escuela Profesional de Ingeniería de Sistemas
+
+
+     -​ U.S. Department of Commerce. https://doi.org/10.6028/NIST.SP.800-53r5Naval
+
+        Information Warfare Center Atlantic. (2026).
+
+     -​ SCAP Compliance Checker (Versión 5.14.1) [Software de computación]. U.S.
+
+        Department of the Navy. https://public.cyber.mil/stigs/scap/
+
+
+
+
+Dr. Renzo Alberto Taco Coayla​                                         ​   ​     - 84 -
+

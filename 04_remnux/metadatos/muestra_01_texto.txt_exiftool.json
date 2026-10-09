@@ -1,0 +1,20 @@
+[
+  {
+    "SourceFile": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_01_texto.txt",
+    "ExifTool:ExifToolVersion": 12.76,
+    "System:FileName": "muestra_01_texto.txt",
+    "System:Directory": "/VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras",
+    "System:FileSize": "106 bytes",
+    "System:FileModifyDate": "2026:10:08 18:54:00-05:00",
+    "System:FileAccessDate": "2026:10:08 18:54:00-05:00",
+    "System:FileInodeChangeDate": "2026:10:08 18:54:00-05:00",
+    "System:FilePermissions": "-rw-rw-r--",
+    "File:FileType": "TXT",
+    "File:FileTypeExtension": "txt",
+    "File:MIMEType": "text/plain",
+    "File:MIMEEncoding": "us-ascii",
+    "File:Newlines": "Unix LF",
+    "File:LineCount": 3,
+    "File:WordCount": 12
+  }
+]

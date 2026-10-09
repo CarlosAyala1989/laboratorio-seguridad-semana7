@@ -1,0 +1,153 @@
+DIAGNÓSTICO DEL ENTORNO - LABORATORIO 07
+Fecha y hora: 2026-10-08T18:56:10-05:00
+Sistema: Linux-7.0.0-34-generic-x86_64-with-glibc2.39
+Arquitectura: x86_64
+Procesador: x86_64
+
+Herramientas detectadas:
+- file: /usr/bin/file
+- exiftool: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/exiftool
+- ssdeep: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/ssdeep
+- yara: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/yara
+- yarac: /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/08_herramientas/raiz_local/usr/bin/yarac
+- md5sum: /usr/bin/md5sum
+- sha256sum: /usr/bin/sha256sum
+- python3: /home/carlos-daniel/.local/bin/python3
+- docker: /usr/bin/docker
+- VBoxManage: /usr/bin/VBoxManage
+- remnux: no disponible
+- malwarebytes: no disponible
+- mbam: no disponible
+
+[distribucion]
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+
+[kernel]
+Linux carlosdaniel 7.0.0-34-generic #34~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 15:38:29 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+[procesador]
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           39 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  8
+On-line CPU(s) list:                     0-7
+Vendor ID:                               GenuineIntel
+Model name:                              11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
+CPU family:                              6
+Model:                                   140
+Thread(s) per core:                      2
+Core(s) per socket:                      4
+Socket(s):                               1
+Stepping:                                2
+CPU(s) scaling MHz:                      96%
+CPU max MHz:                             4500.0000
+CPU min MHz:                             400.0000
+BogoMIPS:                                4992.00
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities
+Virtualization:                          VT-x
+L1d cache:                               192 KiB (4 instances)
+L1i cache:                               128 KiB (4 instances)
+L2 cache:                                5 MiB (4 instances)
+L3 cache:                                8 MiB (1 instance)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-7
+Vulnerability Gather data sampling:      Vulnerable
+Vulnerability Ghostwrite:                Not affected
+Vulnerability Indirect target selection: Mitigation; Aligned branch/return thunks
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Old microcode:             Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Not affected
+
+[interfaces_red]
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0           DOWN           
+wlp0s20f3        UP             192.168.1.27/24 2800:200:fe50:499:d7f2:f20a:e3f3:f653/64 2800:200:fe50:499:2703:9e75:aac8:3be8/64 2800:200:fe50:499:3fcf:3bd2:386a:c231/64 fe80::d4fd:e281:2e61:e71/64 
+br-8995bb8e727d  UP             172.21.0.1/16 fe80::14ab:cdff:fea7:d372/64 
+br-8a92330e87c0  DOWN           172.24.0.1/16 
+br-9d79804e31a6  DOWN           172.20.0.1/16 
+br-9fe66899d842  DOWN           172.19.0.1/16 fe80::98f3:5eff:feda:425e/64 
+br-e4f138dc856b  UP             172.22.0.1/16 fe80::5ca3:c2ff:fefe:4ce1/64 
+docker0          DOWN           172.17.0.1/16 fe80::cce3:7dff:fecc:f328/64 
+br-4e54cb8fe980  DOWN           172.18.0.1/16 
+br-e5d790214aed  DOWN           172.23.0.1/16 
+br-f439bbeba742  UP             172.25.0.1/16 fe80::4473:85ff:febf:7049/64 
+vethec004d8@if2  UP             fe80::b819:22ff:fec0:db3f/64 
+vetha7f1b6f@if2  UP             fe80::98d9:29ff:fe12:7db0/64 
+vethd4682fe@if2  UP             fe80::3014:b4ff:fe64:e025/64 
+veth6f4bb49@if2  UP             fe80::dc9d:5aff:fe71:f787/64 
+veth71312c5@if2  UP             fe80::b81e:c5ff:fe73:85bf/64 
+vethdaa6e54@if2  UP             fe80::a8bc:98ff:fe63:6b0d/64 
+vethcc8048d@if2  UP             fe80::9c08:69ff:fe16:bf11/64 
+veth9f8ce5b@if2  UP             fe80::78d9:eff:fe67:5d23/64
+
+[virtualizacion]
+none
+
+[memoria]
+total        used        free      shared  buff/cache   available
+Mem:            11Gi       7.3Gi       721Mi       846Mi       4.7Gi       4.2Gi
+Swap:          3.8Gi       2.8Gi       1.0Gi
+
+[espacio]
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p6  191G  140G   42G  77% /
+
+[virtualbox_version]
+WARNING: The vboxdrv kernel module is not loaded. Either there is no module
+         available for the current kernel (7.0.0-34-generic) or it failed to
+         load. Please recompile the kernel module and install it by
+
+           sudo /sbin/vboxconfig
+
+         You will not be able to start VMs until this problem is fixed.
+7.0.20r163906
+
+[virtualbox_maquinas]
+WARNING: The vboxdrv kernel module is not loaded. Either there is no module
+         available for the current kernel (7.0.0-34-generic) or it failed to
+         load. Please recompile the kernel module and install it by
+
+           sudo /sbin/vboxconfig
+
+         You will not be able to start VMs until this problem is fixed.
+
+[virtualbox_en_ejecucion]
+WARNING: The vboxdrv kernel module is not loaded. Either there is no module
+         available for the current kernel (7.0.0-34-generic) or it failed to
+         load. Please recompile the kernel module and install it by
+
+           sudo /sbin/vboxconfig
+
+         You will not be able to start VMs until this problem is fixed.
+
+[docker_version]
+Servidor 29.8.1; raíz /var/lib/docker
+
+[imagenes_remnux]
+No se encontró una imagen REMnux local.

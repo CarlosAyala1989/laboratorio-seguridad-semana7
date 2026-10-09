@@ -1,0 +1,55 @@
+REMNUX USAGE TIPS FOR MALWARE                                      Reverse-Engineer Linux Binaries                                     Hashes: malwoverview.py, nsrllookup, Automater.py,
+ANALYSIS ON LINUX                                                  Static Properties: trid, exiftool, pyew, readelf.py                 vt, virustotal-search.py
+
+This cheat sheet outlines some of the commands and                 Disassemble/Decompile: ghidra, cutter, objdump, r2                  Files: yara, scalpel, bulk_extractor, ioc_writer
+tools for analyzing malware using the REMnux distro.               Debugging: edb, gdb                                                 Other: dexray, viper, time-decode.py
+
+Get Started with REMnux                                            Behavior Analysis: ltrace, strace, frida, sysdig, unhide            Other Analysis Tasks
+Get REMnux as a virtual appliance, install the distro              Investigate Other Forms of Malicious Code                           Memory Forensics: vol.py, vol3, linux_mem_diff.py,
+on a dedicated system, or add it to an existing one.                                                                                   aeskeyfind, rsakeyfind, bulk_extractor
+                                                                   Android: apktool, droidlysis, androgui.py, baksmali,
+Review REMnux documentation at docs.remnux.org.                    dex2jar                                                             File Editing: wxHexEditor, scite, code, xpdf, convert
+Keep your system up to date by periodically running                Java: cfr, procyon, jad, jd-gui, idx_parser.py                      File Extraction: 7z, unzip, unrar, cabextract
+“remnux upgrade” and “remnux update”.                              Python: pyinstxtractor.py, pycdc                                    Use Docker Containers for Analysis
+Become familiar with REMnux malware analysis tools                 JavaScript: js, js-file, objects.js, box-js                         Thug Honeyclient: remnux/thug
+available as Docker images.
+                                                                   Shellcode: shellcode2exe.bat, scdbg, xorsearch                      JSDetox JavaScript Analysis: remnux/jsdetox
+Know default logon credentials: remnux/malware
+                                                                   PowerShell: pwsh, base64dump                                        Rekall Memory Forensics: remnux/recall
+Operate Your REMnux System
+                                                                   Flash: swfdump, flare, flasm, swf_mastah.py, xxxswf                 RetDec Decompiler: remnux/retdec
+ Shut down the system             shutdown
+                                                                   Examine Suspicious Documents                                        Radare2 Reversing Framework: remnux/radare2
+ Reboot the system                reboot
+                                                                   Microsoft Office Files: vmonkey, pcodedmp, olevba,                  Ciphey Automatic Decrypter: remnux/ciphey
+ Switch to a root shell           sudo -s
+                                                                   xlmdeobfuscator, oledump.py, msoffice-crypt, ssview                 Viper Binary Analysis Framework: remnux/viper
+ Renew DHCP lease                 renew-dhcp
+                                                                   RTF Files: rtfobj, rtfdump                                          REMnux in a Container: remnux/remnux-distro
+ See current IP address           myip
+                                                                   Email Messages: emldump, msgconvert
+ Edit a text file                 code file                                                                                            Interact with Docker Images
+                                                                   PDF Files: pdfid, pdfparser, pdfextract, pdfdecrypt,                 List local images             docker images
+ View an image file               feh file
+                                                                   peepdf, pdftk, pdfresurrect, qpdf, pdfobjflow
+                                                                                                                                        Update local image            docker pull image
+ Start web server                 httpd start
+                                                                   General: base64dump, tesseract, exiftool
+                                                                                                                                        Delete local image            docker rmi imageid
+ Start SSH server                 sshd start
+                                                                   Explore Network Interactions                                         Delete unused resources       docker system prune
+Analyze Windows Executables                                        Monitoring: burpsuite, networkminer, polarproxy,                                                   docker run --rm -it
+                                                                                                                                        Open a shell inside a
+Static Properties: manalyze, peframe, pefile, exiftool,            mitmproxy, wireshark, tshark, ngrep, tcpxtract                       transient container           image bash
+clamscan, pescan, portex, bearcommander, pecheck                   Connecting: thug, nc, tor, wget, curl, irc, ssh, unfurl              Map a local TCP port 80       docker run --rm -it
+Strings and Deobfuscation: pestr, bbcrack, brxor.py,               Services: fakedns, fakemail, accept-all-ips, nc, httpd,              to container’s port 80        -p 80:80 image bash
+base64dump, xorsearch, flarestrings, floss, cyberchef              inetsim, fakenet, sshd, myip                                         Map your current              docker run --rm -it
+Code Emulation: binee, capa, vivbin                                Gather and Analyze Data                                              directory into container      -v .:dir image bash
+Disassemble/Decompile: ghidra, cutter, objdump, r2                 Network: Automater.py, shodan, ipwhois_cli.py,
+Unpacking: bytehist, de4dot, upx                                   pdnstool
+
+
+
+ Authored by Lenny Zeltser for REMnux v7. Lenny writes a security blog at zeltser.com and is active on Twitter as @lennyzeltser. Many REMnux tools and techniques are discussed in the
+ Reverse-Engineering Malware course at SANS Institute, which Lenny co-authored. This cheat sheet is distributed according to the Creative Commons v3 “Attribution” License.
+

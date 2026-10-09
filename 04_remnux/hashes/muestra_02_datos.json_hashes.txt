@@ -1,0 +1,7 @@
+Comando md5sum: 50fc40883734a75189ecf004524e157c  /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json
+hashlib MD5: 50fc40883734a75189ecf004524e157c
+Comando sha256sum: 0ae51dec7c2b82a4e3fd4187693cd77cecc5137f308ce6c706b6120f68d266e9  /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json
+hashlib SHA-256: 0ae51dec7c2b82a4e3fd4187693cd77cecc5137f308ce6c706b6120f68d266e9
+Coincidencia MD5: True
+Coincidencia SHA-256: True
+ssdeep: 3:YE86ziSHGHkZ6gGACMWxGKcxM2IVQERT:YErmSakZ6nGKz7RT

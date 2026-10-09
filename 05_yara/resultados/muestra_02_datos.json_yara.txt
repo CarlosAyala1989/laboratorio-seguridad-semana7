@@ -1,0 +1,6 @@
+Comando: yara -s /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/05_yara/reglas/reglas_laboratorio.yar /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json
+Salida:
+Marcador_JSON_Benigno /VMQEMU/laboratorio-seguridad/laboratorio_07_analisis_malware/04_remnux/muestras/muestra_02_datos.json
+0x1a:$campo: "indicador_json_benigno"
+0x34:$valor: registro_controlado
+

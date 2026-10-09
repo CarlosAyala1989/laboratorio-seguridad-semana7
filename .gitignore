@@ -1,0 +1,23 @@
+# Renderizados temporales usados para revisar la plantilla y el informe
+/10_fuentes/plantilla_render/
+/10_fuentes/revision_visual_pdf/
+
+# Instalador externo y archivos de intercambio con la VM
+/02_malwarebytes/instaladores/MBSetup.exe
+/02_malwarebytes/share/
+/02_malwarebytes/windows_storage/
+
+# Imágenes de máquinas virtuales y medios de instalación
+*.iso
+*.qcow2
+*.vdi
+*.vmdk
+*.img
+*.raw
+
+# Archivos locales y temporales
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
